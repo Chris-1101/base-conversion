@@ -15,9 +15,10 @@ namespace CMB.BaseConversion
         public MainForm()
         {
             InitializeComponent();
-            this.BackColor = Color.FromArgb(45, 45, 48);
-            this.ControlBox = false;
-            this.Text = String.Empty;
+            this.BackColor = Color.FromArgb(38, 39, 42);
+            TitleBar.BackColor = Color.FromArgb(38, 39, 42);
+            // this.ControlBox = false;
+            // this.Text = String.Empty;
         }
 
         private bool mouseDown;
@@ -41,6 +42,16 @@ namespace CMB.BaseConversion
         private void TitleBar_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
+        }
+
+        private void WinClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void WinMinimise_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
