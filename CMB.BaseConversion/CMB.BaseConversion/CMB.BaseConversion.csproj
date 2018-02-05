@@ -64,6 +64,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -74,9 +75,25 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\CGothicReg.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CMBBaseConversion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WindowMinimise.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WindowClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DropDownArrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
