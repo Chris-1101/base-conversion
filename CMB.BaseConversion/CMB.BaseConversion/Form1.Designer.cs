@@ -34,12 +34,10 @@
             this.NumberIn = new System.Windows.Forms.TextBox();
             this.NumberInUnderline = new System.Windows.Forms.Panel();
             this.HintToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.BaseInDropDown = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.BaseDropDown = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.base2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BaseIn = new System.Windows.Forms.Label();
-            this.BaseInUnderline = new System.Windows.Forms.Panel();
             this.base5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,19 +47,36 @@
             this.base20ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base26ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.base36ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BaseIn = new System.Windows.Forms.Label();
+            this.BaseInUnderline = new System.Windows.Forms.Panel();
+            this.BaseOut = new System.Windows.Forms.Label();
+            this.BaseOutUnderline = new System.Windows.Forms.Panel();
+            this.BaseOutHint = new System.Windows.Forms.PictureBox();
             this.BaseInHint = new System.Windows.Forms.PictureBox();
             this.NumberInHint = new System.Windows.Forms.PictureBox();
             this.WinClose = new System.Windows.Forms.PictureBox();
             this.WinMinimise = new System.Windows.Forms.PictureBox();
             this.TitleImage = new System.Windows.Forms.PictureBox();
+            this.BaseOutDropDownArrow = new System.Windows.Forms.PictureBox();
             this.BaseInDropDownArrow = new System.Windows.Forms.PictureBox();
-            this.BaseInDropDown.SuspendLayout();
+            this.Convert = new System.Windows.Forms.PictureBox();
+            this.ResultContainer = new System.Windows.Forms.Panel();
+            this.ResultIn = new System.Windows.Forms.Label();
+            this.ResultOut = new System.Windows.Forms.Label();
+            this.ResultInBase = new System.Windows.Forms.Label();
+            this.ResultOutBase = new System.Windows.Forms.Label();
+            this.ResultEquals = new System.Windows.Forms.Label();
+            this.BaseDropDown.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BaseOutHint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseInHint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberInHint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WinClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WinMinimise)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitleImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BaseOutDropDownArrow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseInDropDownArrow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Convert)).BeginInit();
+            this.ResultContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // SideBar
@@ -101,9 +116,9 @@
             this.HintToolTip.UseAnimation = false;
             this.HintToolTip.UseFading = false;
             // 
-            // BaseInDropDown
+            // BaseDropDown
             // 
-            this.BaseInDropDown.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BaseDropDown.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.base2ToolStripMenuItem,
             this.base3ToolStripMenuItem,
             this.base4ToolStripMenuItem,
@@ -116,11 +131,11 @@
             this.base20ToolStripMenuItem,
             this.base26ToolStripMenuItem,
             this.base36ToolStripMenuItem});
-            this.BaseInDropDown.Name = "contextMenuStrip1";
-            this.BaseInDropDown.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.BaseInDropDown.ShowImageMargin = false;
-            this.BaseInDropDown.Size = new System.Drawing.Size(181, 268);
-            this.BaseInDropDown.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.BaseInDropDown_ItemClicked);
+            this.BaseDropDown.Name = "contextMenuStrip1";
+            this.BaseDropDown.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.BaseDropDown.ShowImageMargin = false;
+            this.BaseDropDown.Size = new System.Drawing.Size(181, 268);
+            this.BaseDropDown.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.BaseInDropDown_ItemClicked);
             // 
             // base2ToolStripMenuItem
             // 
@@ -139,23 +154,6 @@
             this.base4ToolStripMenuItem.Name = "base4ToolStripMenuItem";
             this.base4ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.base4ToolStripMenuItem.Text = "Base-4 (Quaternary)";
-            // 
-            // BaseIn
-            // 
-            this.BaseIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BaseIn.Location = new System.Drawing.Point(416, 104);
-            this.BaseIn.Name = "BaseIn";
-            this.BaseIn.Size = new System.Drawing.Size(204, 24);
-            this.BaseIn.TabIndex = 10;
-            this.BaseIn.Text = "base";
-            this.BaseIn.Click += new System.EventHandler(this.BaseIn_Click);
-            // 
-            // BaseInUnderline
-            // 
-            this.BaseInUnderline.Location = new System.Drawing.Point(420, 135);
-            this.BaseInUnderline.Name = "BaseInUnderline";
-            this.BaseInUnderline.Size = new System.Drawing.Size(204, 1);
-            this.BaseInUnderline.TabIndex = 11;
             // 
             // base5ToolStripMenuItem
             // 
@@ -211,6 +209,50 @@
             this.base36ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.base36ToolStripMenuItem.Text = "Base-36 (Hexatridecimal)";
             // 
+            // BaseIn
+            // 
+            this.BaseIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BaseIn.Location = new System.Drawing.Point(416, 104);
+            this.BaseIn.Name = "BaseIn";
+            this.BaseIn.Size = new System.Drawing.Size(204, 24);
+            this.BaseIn.TabIndex = 10;
+            this.BaseIn.Text = "base";
+            this.BaseIn.Click += new System.EventHandler(this.BaseIn_Click);
+            // 
+            // BaseInUnderline
+            // 
+            this.BaseInUnderline.Location = new System.Drawing.Point(420, 135);
+            this.BaseInUnderline.Name = "BaseInUnderline";
+            this.BaseInUnderline.Size = new System.Drawing.Size(204, 1);
+            this.BaseInUnderline.TabIndex = 11;
+            // 
+            // BaseOut
+            // 
+            this.BaseOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BaseOut.Location = new System.Drawing.Point(87, 162);
+            this.BaseOut.Name = "BaseOut";
+            this.BaseOut.Size = new System.Drawing.Size(259, 24);
+            this.BaseOut.TabIndex = 10;
+            this.BaseOut.Text = "convert to";
+            this.BaseOut.Click += new System.EventHandler(this.BaseOut_Click);
+            // 
+            // BaseOutUnderline
+            // 
+            this.BaseOutUnderline.Location = new System.Drawing.Point(91, 193);
+            this.BaseOutUnderline.Name = "BaseOutUnderline";
+            this.BaseOutUnderline.Size = new System.Drawing.Size(259, 1);
+            this.BaseOutUnderline.TabIndex = 13;
+            // 
+            // BaseOutHint
+            // 
+            this.BaseOutHint.Image = global::CMB.BaseConversion.Properties.Resources.Hint;
+            this.BaseOutHint.Location = new System.Drawing.Point(64, 166);
+            this.BaseOutHint.Name = "BaseOutHint";
+            this.BaseOutHint.Size = new System.Drawing.Size(16, 16);
+            this.BaseOutHint.TabIndex = 7;
+            this.BaseOutHint.TabStop = false;
+            this.HintToolTip.SetToolTip(this.BaseOutHint, "Select the base/radix you\'d like to convert this number to");
+            // 
             // BaseInHint
             // 
             this.BaseInHint.Image = global::CMB.BaseConversion.Properties.Resources.Hint;
@@ -219,7 +261,7 @@
             this.BaseInHint.Size = new System.Drawing.Size(16, 16);
             this.BaseInHint.TabIndex = 7;
             this.BaseInHint.TabStop = false;
-            this.HintToolTip.SetToolTip(this.BaseInHint, "Select the base/radix of the number you wish to convert");
+            this.HintToolTip.SetToolTip(this.BaseInHint, "Select the base/radix of the number you\'d like to convert");
             // 
             // NumberInHint
             // 
@@ -229,12 +271,12 @@
             this.NumberInHint.Size = new System.Drawing.Size(16, 16);
             this.NumberInHint.TabIndex = 7;
             this.NumberInHint.TabStop = false;
-            this.HintToolTip.SetToolTip(this.NumberInHint, "Enter the number you wish to convert");
+            this.HintToolTip.SetToolTip(this.NumberInHint, "Enter the number you\'d like to convert");
             // 
             // WinClose
             // 
             this.WinClose.Image = global::CMB.BaseConversion.Properties.Resources.WindowClose;
-            this.WinClose.Location = new System.Drawing.Point(689, 16);
+            this.WinClose.Location = new System.Drawing.Point(688, 15);
             this.WinClose.Name = "WinClose";
             this.WinClose.Size = new System.Drawing.Size(16, 16);
             this.WinClose.TabIndex = 1;
@@ -244,7 +286,7 @@
             // WinMinimise
             // 
             this.WinMinimise.Image = global::CMB.BaseConversion.Properties.Resources.WindowMinimise;
-            this.WinMinimise.Location = new System.Drawing.Point(655, 16);
+            this.WinMinimise.Location = new System.Drawing.Point(655, 15);
             this.WinMinimise.Name = "WinMinimise";
             this.WinMinimise.Size = new System.Drawing.Size(16, 16);
             this.WinMinimise.TabIndex = 1;
@@ -260,6 +302,16 @@
             this.TitleImage.TabIndex = 6;
             this.TitleImage.TabStop = false;
             // 
+            // BaseOutDropDownArrow
+            // 
+            this.BaseOutDropDownArrow.Enabled = false;
+            this.BaseOutDropDownArrow.Image = global::CMB.BaseConversion.Properties.Resources.DropDownArrow;
+            this.BaseOutDropDownArrow.Location = new System.Drawing.Point(327, 167);
+            this.BaseOutDropDownArrow.Name = "BaseOutDropDownArrow";
+            this.BaseOutDropDownArrow.Size = new System.Drawing.Size(23, 15);
+            this.BaseOutDropDownArrow.TabIndex = 12;
+            this.BaseOutDropDownArrow.TabStop = false;
+            // 
             // BaseInDropDownArrow
             // 
             this.BaseInDropDownArrow.Enabled = false;
@@ -270,13 +322,85 @@
             this.BaseInDropDownArrow.TabIndex = 12;
             this.BaseInDropDownArrow.TabStop = false;
             // 
+            // Convert
+            // 
+            this.Convert.Image = global::CMB.BaseConversion.Properties.Resources.ConvertButton;
+            this.Convert.Location = new System.Drawing.Point(415, 161);
+            this.Convert.Name = "Convert";
+            this.Convert.Size = new System.Drawing.Size(214, 38);
+            this.Convert.TabIndex = 15;
+            this.Convert.TabStop = false;
+            this.Convert.Click += new System.EventHandler(this.Convert_Click);
+            // 
+            // ResultContainer
+            // 
+            this.ResultContainer.Controls.Add(this.ResultEquals);
+            this.ResultContainer.Controls.Add(this.ResultIn);
+            this.ResultContainer.Controls.Add(this.ResultInBase);
+            this.ResultContainer.Controls.Add(this.ResultOutBase);
+            this.ResultContainer.Controls.Add(this.ResultOut);
+            this.ResultContainer.Location = new System.Drawing.Point(90, 280);
+            this.ResultContainer.Name = "ResultContainer";
+            this.ResultContainer.Size = new System.Drawing.Size(534, 58);
+            this.ResultContainer.TabIndex = 16;
+            this.ResultContainer.Click += new System.EventHandler(this.ResultContainer_Click);
+            // 
+            // ResultIn
+            // 
+            this.ResultIn.AutoSize = true;
+            this.ResultIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultIn.Location = new System.Drawing.Point(117, 18);
+            this.ResultIn.Name = "ResultIn";
+            this.ResultIn.Size = new System.Drawing.Size(0, 24);
+            this.ResultIn.TabIndex = 14;
+            // 
+            // ResultOut
+            // 
+            this.ResultOut.AutoSize = true;
+            this.ResultOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultOut.Location = new System.Drawing.Point(315, 18);
+            this.ResultOut.Name = "ResultOut";
+            this.ResultOut.Size = new System.Drawing.Size(0, 24);
+            this.ResultOut.TabIndex = 14;
+            // 
+            // ResultInBase
+            // 
+            this.ResultInBase.AutoSize = true;
+            this.ResultInBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultInBase.Location = new System.Drawing.Point(183, 18);
+            this.ResultInBase.Name = "ResultInBase";
+            this.ResultInBase.Size = new System.Drawing.Size(0, 13);
+            this.ResultInBase.TabIndex = 14;
+            // 
+            // ResultOutBase
+            // 
+            this.ResultOutBase.AutoSize = true;
+            this.ResultOutBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultOutBase.Location = new System.Drawing.Point(381, 18);
+            this.ResultOutBase.Name = "ResultOutBase";
+            this.ResultOutBase.Size = new System.Drawing.Size(0, 13);
+            this.ResultOutBase.TabIndex = 14;
+            // 
+            // ResultEquals
+            // 
+            this.ResultEquals.AutoSize = true;
+            this.ResultEquals.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultEquals.Location = new System.Drawing.Point(249, 18);
+            this.ResultEquals.Name = "ResultEquals";
+            this.ResultEquals.Size = new System.Drawing.Size(0, 24);
+            this.ResultEquals.TabIndex = 15;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(720, 405);
+            this.Controls.Add(this.ResultContainer);
+            this.Controls.Add(this.Convert);
+            this.Controls.Add(this.BaseOutUnderline);
             this.Controls.Add(this.BaseInUnderline);
+            this.Controls.Add(this.BaseOutHint);
             this.Controls.Add(this.BaseInHint);
             this.Controls.Add(this.NumberInHint);
             this.Controls.Add(this.NumberInUnderline);
@@ -285,24 +409,33 @@
             this.Controls.Add(this.SideBar);
             this.Controls.Add(this.WinMinimise);
             this.Controls.Add(this.TitleImage);
+            this.Controls.Add(this.BaseOutDropDownArrow);
             this.Controls.Add(this.BaseInDropDownArrow);
             this.Controls.Add(this.BaseIn);
+            this.Controls.Add(this.BaseOut);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.Text = "Base Conversion";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Click += new System.EventHandler(this.MainForm_Click);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
-            this.BaseInDropDown.ResumeLayout(false);
+            this.BaseDropDown.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.BaseOutHint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseInHint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberInHint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WinClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WinMinimise)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitleImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BaseOutDropDownArrow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BaseInDropDownArrow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Convert)).EndInit();
+            this.ResultContainer.ResumeLayout(false);
+            this.ResultContainer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,7 +450,7 @@
         private System.Windows.Forms.PictureBox TitleImage;
         private System.Windows.Forms.PictureBox NumberInHint;
         private System.Windows.Forms.ToolTip HintToolTip;
-        private System.Windows.Forms.ContextMenuStrip BaseInDropDown;
+        private System.Windows.Forms.ContextMenuStrip BaseDropDown;
         private System.Windows.Forms.ToolStripMenuItem base2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem base3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem base4ToolStripMenuItem;
@@ -334,6 +467,17 @@
         private System.Windows.Forms.ToolStripMenuItem base26ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem base36ToolStripMenuItem;
         private System.Windows.Forms.PictureBox BaseInDropDownArrow;
+        private System.Windows.Forms.PictureBox BaseOutHint;
+        private System.Windows.Forms.PictureBox BaseOutDropDownArrow;
+        private System.Windows.Forms.Label BaseOut;
+        private System.Windows.Forms.Panel BaseOutUnderline;
+        private System.Windows.Forms.PictureBox Convert;
+        private System.Windows.Forms.Panel ResultContainer;
+        private System.Windows.Forms.Label ResultEquals;
+        private System.Windows.Forms.Label ResultIn;
+        private System.Windows.Forms.Label ResultInBase;
+        private System.Windows.Forms.Label ResultOutBase;
+        private System.Windows.Forms.Label ResultOut;
     }
 }
 

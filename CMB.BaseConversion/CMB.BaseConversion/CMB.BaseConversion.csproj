@@ -95,5 +95,8 @@
   <ItemGroup>
     <None Include="Resources\DropDownArrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConvertButton.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

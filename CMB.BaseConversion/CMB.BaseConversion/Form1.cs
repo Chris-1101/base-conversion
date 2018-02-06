@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace CMB.BaseConversion
 {
     public partial class MainForm : Form
     {
+        // Main Form Constructor
         public MainForm()
         {
             InitializeComponent();
@@ -23,6 +25,30 @@ namespace CMB.BaseConversion
             
             // this.ControlBox = false;
             // this.Text = String.Empty;
+        }
+
+        // Initialise Embedded Font
+        private void InitialiseCGothicReg()
+        {
+            PrivateFontCollection pfc = new PrivateFontCollection();
+
+            int fontLength = Properties.Resources.CGothicReg.Length;
+            byte[] fontData = Properties.Resources.CGothicReg;
+
+            IntPtr data = Marshal.AllocCoTaskMem(fontLength);
+            Marshal.Copy(fontData, 0, data, fontLength);
+
+            pfc.AddMemoryFont(data, fontLength);
+
+            NumberIn.Font = new Font(pfc.Families[0], NumberIn.Font.Size);
+            BaseIn.Font = new Font(pfc.Families[0], BaseIn.Font.Size);
+            BaseOut.Font = new Font(pfc.Families[0], BaseOut.Font.Size);
+
+            ResultIn.Font = new Font(pfc.Families[0], ResultIn.Font.Size);
+            ResultInBase.Font = new Font(pfc.Families[0], ResultInBase.Font.Size);
+            ResultEquals.Font = new Font(pfc.Families[0], ResultEquals.Font.Size);
+            ResultOut.Font = new Font(pfc.Families[0], ResultOut.Font.Size);
+            ResultOutBase.Font = new Font(pfc.Families[0], ResultOutBase.Font.Size);
         }
 
         // Custom Form Appearance
@@ -36,28 +62,20 @@ namespace CMB.BaseConversion
         {
             this.BackColor = metroGrey;
             SideBar.BackColor = metroBlue;
+
             NumberIn.BackColor = metroGrey;
             NumberIn.ForeColor = textDimmed;
             NumberInUnderline.BackColor = underline;
             BaseIn.ForeColor = textDimmed;
             BaseInUnderline.BackColor = underline;
-        }
+            BaseOut.ForeColor = textDimmed;
+            BaseOutUnderline.BackColor = underline;
 
-        // Initialise Embedded Font
-        private void InitialiseCGothicReg()
-        {
-            PrivateFontCollection pfc = new PrivateFontCollection();
-
-            int fontLength = Properties.Resources.CGothicReg.Length;
-            byte[] fontData = Properties.Resources.CGothicReg;
-            
-            IntPtr data = Marshal.AllocCoTaskMem(fontLength);
-            Marshal.Copy(fontData, 0, data, fontLength);
-            
-            pfc.AddMemoryFont(data, fontLength);
-
-            NumberIn.Font = new Font(pfc.Families[0], NumberIn.Font.Size);
-            BaseIn.Font = new Font(pfc.Families[0], BaseIn.Font.Size);
+            ResultIn.ForeColor = textActive;
+            ResultInBase.ForeColor = underline;
+            ResultEquals.ForeColor = textActive;
+            ResultOut.ForeColor = metroBlue;
+            ResultOutBase.ForeColor = underline;
         }
 
         // Make the Main Form Draggable
@@ -95,6 +113,41 @@ namespace CMB.BaseConversion
             this.WindowState = FormWindowState.Minimized;
         }
 
+        // Control Which Elements Gain Highlight
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.ActiveControl = TitleImage;
+        }
+
+        private void MainForm_Click(object sender, EventArgs e)
+        {
+            UpdateControlHighlight(sender);
+        }
+
+        private void ResultContainer_Click(object sender, EventArgs e)
+        {
+            UpdateControlHighlight(sender);
+        }
+
+        private void UpdateControlHighlight(object sender)
+        {
+            NumberInUnderline.BackColor = underline;
+            BaseInUnderline.BackColor = underline;
+            BaseOutUnderline.BackColor = underline;
+
+            if (!sender.Equals(NumberIn))
+                this.ActiveControl = TitleImage;
+
+            if (sender.Equals(NumberIn))
+                NumberInUnderline.BackColor = metroBlue;
+
+            if (sender.Equals(BaseIn))
+                BaseInUnderline.BackColor = metroBlue;
+
+            if (sender.Equals(BaseOut))
+                BaseOutUnderline.BackColor = metroBlue;
+        }
+
         // Number Input Field Bheaviour
         bool isInitialised = false;
 
@@ -107,7 +160,7 @@ namespace CMB.BaseConversion
                 isInitialised = true;
             }
 
-            NumberInUnderline.BackColor = metroBlue;
+            UpdateControlHighlight(sender);
         }
 
         private void NumberIn_Leave(object sender, EventArgs e)
@@ -118,24 +171,75 @@ namespace CMB.BaseConversion
                 NumberIn.ForeColor = textDimmed;
                 isInitialised = false;
             }
-
-            NumberInUnderline.BackColor = underline;
         }
 
-        // BaseIn Input Field Behaviour
+        // BaseIn/BaseOut Input Field Behaviour
+        bool isFromBaseIn;
+
         private void BaseIn_Click(object sender, EventArgs e)
         {
-            BaseInDropDown.Show(BaseIn, new Point(0, BaseIn.Height));
-            BaseInUnderline.BackColor = metroBlue;
+            BaseDropDown.Show(BaseInUnderline, new Point(0, BaseInUnderline.Height + 1));
+            isFromBaseIn = true;
+
+            UpdateControlHighlight(sender);
+        }
+
+        private void BaseOut_Click(object sender, EventArgs e)
+        {
+            BaseDropDown.Show(BaseOutUnderline, new Point(0, BaseOutUnderline.Height + 1));
+            isFromBaseIn = false;
+
+            UpdateControlHighlight(sender);
         }
 
         private void BaseInDropDown_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            BaseIn.Text = e.ClickedItem.Text;
-            BaseIn.ForeColor = textActive;
+            if (isFromBaseIn)
+            {
+                BaseIn.Text = e.ClickedItem.Text;
+                BaseIn.ForeColor = textActive;
+            }
+            else
+            {
+                BaseOut.Text = e.ClickedItem.Text;
+                BaseOut.ForeColor = textActive;
+            }
         }
 
-        // BaseInUnderline.BackColor = underline; to all other form items click or focus
+        // Convert Button Behaviour
+        private void Convert_Click(object sender, EventArgs e)
+        {
+            ResultIn.Text = NumberIn.Text;
+            ResultInBase.Text = ExtractBaseDigits(BaseIn.Text);
+            ResultEquals.Text = "  =  ";
+            ResultOut.Text = "placeholder conversion result";
+            ResultOutBase.Text = ExtractBaseDigits(BaseOut.Text);
+
+            UpdateResultPosition();
+            UpdateControlHighlight(sender);
+        }
+
+        private string ExtractBaseDigits(string str)
+        {
+            return Regex.Match(str, "(\\d+)").Groups[1].Value;
+        }
+
+        private void UpdateResultPosition()
+        {
+            int totalWidth = ResultContainer.Width;
+            int labelWidth = ResultIn.Width + ResultInBase.Width + ResultEquals.Width + ResultOut.Width + ResultOutBase.Width;
+            int newPositionX = (totalWidth - labelWidth) / 2;
+            int newPositionY = (ResultContainer.Height - ResultIn.Height) / 2;
+
+            int subscriptOffset = 10;
+
+            ResultIn.Location = new Point(newPositionX, newPositionY);
+            ResultInBase.Location = new Point(ResultIn.Right, newPositionY + subscriptOffset);
+            ResultEquals.Location = new Point(ResultInBase.Right, newPositionY);
+            ResultOut.Location = new Point(ResultEquals.Right, newPositionY);
+            ResultOutBase.Location = new Point(ResultOut.Right, newPositionY + subscriptOffset);
+        }
+        
         // Sort tabbing order
     }
 }

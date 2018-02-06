@@ -124,6 +124,9 @@
   <data name="CMBBaseConversion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CMBBaseConversion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ConvertButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ConvertButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

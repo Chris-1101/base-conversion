@@ -83,6 +83,16 @@ namespace CMB.BaseConversion.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ConvertButton {
+            get {
+                object obj = ResourceManager.GetObject("ConvertButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DropDownArrow {
             get {
                 object obj = ResourceManager.GetObject("DropDownArrow", resourceCulture);
