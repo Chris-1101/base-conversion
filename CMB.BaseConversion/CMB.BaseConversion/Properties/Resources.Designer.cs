@@ -113,6 +113,16 @@ namespace CMB.BaseConversion.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ResultBG {
+            get {
+                object obj = ResourceManager.GetObject("ResultBG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap WindowClose {
             get {
                 object obj = ResourceManager.GetObject("WindowClose", resourceCulture);

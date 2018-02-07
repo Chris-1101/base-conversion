@@ -81,9 +81,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CMBBaseConversion.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\WindowMinimise.png" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ConvertButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ResultBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CMBBaseConversion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

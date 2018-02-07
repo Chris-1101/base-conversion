@@ -51,7 +51,7 @@ namespace CMB.BaseConversion
             ResultOutBase.Font = new Font(pfc.Families[0], ResultOutBase.Font.Size);
         }
 
-        // Custom Form Appearance
+        // Initialise Custom Form Appearance
         private Color metroGrey = Color.FromArgb(59, 68, 78);
         private Color metroBlue = Color.FromArgb(49, 202, 252);
         private Color textDimmed = Color.FromArgb(94, 105, 116);
@@ -70,12 +70,14 @@ namespace CMB.BaseConversion
             BaseInUnderline.BackColor = underline;
             BaseOut.ForeColor = textDimmed;
             BaseOutUnderline.BackColor = underline;
-
+            
             ResultIn.ForeColor = textActive;
             ResultInBase.ForeColor = underline;
             ResultEquals.ForeColor = textActive;
             ResultOut.ForeColor = metroBlue;
             ResultOutBase.ForeColor = underline;
+
+            ResultContainer.Hide();
         }
 
         // Make the Main Form Draggable
@@ -209,14 +211,25 @@ namespace CMB.BaseConversion
         // Convert Button Behaviour
         private void Convert_Click(object sender, EventArgs e)
         {
-            ResultIn.Text = NumberIn.Text;
-            ResultInBase.Text = ExtractBaseDigits(BaseIn.Text);
-            ResultEquals.Text = "  =  ";
-            ResultOut.Text = "placeholder conversion result";
-            ResultOutBase.Text = ExtractBaseDigits(BaseOut.Text);
+            if (isInitialised)
+            {
+                ResultIn.Text = NumberIn.Text;
+                ResultInBase.Text = ExtractBaseDigits(BaseIn.Text);
+                ResultEquals.Text = "  =  ";
+                ResultOut.Text = "placeholder result";
+                ResultOutBase.Text = ExtractBaseDigits(BaseOut.Text);
 
-            UpdateResultPosition();
-            UpdateControlHighlight(sender);
+                UpdateResultPosition();
+                UpdateControlHighlight(sender);
+
+                ResultContainer.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please enter a number to be converted!", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            // Needs more work after base conversion class has been implemented
         }
 
         private string ExtractBaseDigits(string str)
@@ -231,15 +244,30 @@ namespace CMB.BaseConversion
             int newPositionX = (totalWidth - labelWidth) / 2;
             int newPositionY = (ResultContainer.Height - ResultIn.Height) / 2;
 
+            int baseOffsetX = 3;
             int subscriptOffset = 10;
 
             ResultIn.Location = new Point(newPositionX, newPositionY);
-            ResultInBase.Location = new Point(ResultIn.Right, newPositionY + subscriptOffset);
+            ResultInBase.Location = new Point(ResultIn.Right - baseOffsetX, newPositionY + subscriptOffset);
             ResultEquals.Location = new Point(ResultInBase.Right, newPositionY);
             ResultOut.Location = new Point(ResultEquals.Right, newPositionY);
-            ResultOutBase.Location = new Point(ResultOut.Right, newPositionY + subscriptOffset);
+            ResultOutBase.Location = new Point(ResultOut.Right - baseOffsetX, newPositionY + subscriptOffset);
         }
-        
-        // Sort tabbing order
+
+        // Reset Form
+        private void ResetAllFieldsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NumberIn.Clear();
+            NumberIn_Leave(sender, EventArgs.Empty);
+            BaseIn.Text = "base";
+            BaseIn.ForeColor = textDimmed;
+            BaseOut.Text = "convert to";
+            BaseOut.ForeColor = textDimmed;
+            ResultContainer.Hide();
+
+            // MainForm newForm = new MainForm();
+            // newForm.Show();
+            // this.Dispose(false);
+        }
     }
 }
