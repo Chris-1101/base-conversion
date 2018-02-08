@@ -15,7 +15,10 @@ namespace CMB.BaseConversion
 {
     public partial class MainForm : Form
     {
-        // Main Form Constructor
+        // Base Conversion
+        private BaseConversion bc = new BaseConversion();
+        
+        // Main WinForms Constructor
         public MainForm()
         {
             InitializeComponent();
@@ -151,15 +154,15 @@ namespace CMB.BaseConversion
         }
 
         // Number Input Field Bheaviour
-        bool isInitialised = false;
+        bool isInitialisedNumber = false;
 
         private void NumberIn_Enter(object sender, EventArgs e)
         {
-            if (!isInitialised)
+            if (!isInitialisedNumber)
             {
                 NumberIn.Text = String.Empty;
                 NumberIn.ForeColor = textActive;
-                isInitialised = true;
+                isInitialisedNumber = true;
             }
 
             UpdateControlHighlight(sender);
@@ -171,12 +174,14 @@ namespace CMB.BaseConversion
             {
                 NumberIn.Text = "number";
                 NumberIn.ForeColor = textDimmed;
-                isInitialised = false;
+                isInitialisedNumber = false;
             }
         }
 
         // BaseIn/BaseOut Input Field Behaviour
         bool isFromBaseIn;
+        bool isInitialisedBaseIn = false;
+        bool isInitialisedBaseOut = false;
 
         private void BaseIn_Click(object sender, EventArgs e)
         {
@@ -200,20 +205,43 @@ namespace CMB.BaseConversion
             {
                 BaseIn.Text = e.ClickedItem.Text;
                 BaseIn.ForeColor = textActive;
+                isInitialisedBaseIn = true;
             }
             else
             {
                 BaseOut.Text = e.ClickedItem.Text;
                 BaseOut.ForeColor = textActive;
+                isInitialisedBaseOut = true;
             }
         }
 
         // Convert Button Behaviour
         private void Convert_Click(object sender, EventArgs e)
         {
-            if (isInitialised)
+            if (!isInitialisedNumber)
             {
-                ResultIn.Text = NumberIn.Text;
+                MessageBox.Show("Please enter a number to be converted.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (!isInitialisedBaseIn)
+            {
+                MessageBox.Show("Please specify the number's base/radix.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (!isInitialisedBaseOut)
+            {
+                MessageBox.Show("Please specify the base/radix to convert the number to.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (!bc.IsValidInput(NumberIn.Text.ToUpper(), Int32.Parse(ExtractBaseDigits(BaseIn.Text)))) // Switch to TryParse instead!
+            {
+                MessageBox.Show( // Insert details in error message?
+                    "You entered an invalid number/base combination.\n\nRemember, a numeral system's highest number is one less than it's count: there is no '2' in Base-2, only '0's and '1's!",
+                    "Chris MB's Base Conversion",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            else
+            {
+                ResultIn.Text = NumberIn.Text.ToUpper();
                 ResultInBase.Text = ExtractBaseDigits(BaseIn.Text);
                 ResultEquals.Text = "  =  ";
                 ResultOut.Text = "placeholder result";
@@ -223,10 +251,6 @@ namespace CMB.BaseConversion
                 UpdateControlHighlight(sender);
 
                 ResultContainer.Show();
-            }
-            else
-            {
-                MessageBox.Show("Please enter a number to be converted!", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             // Needs more work after base conversion class has been implemented
@@ -259,10 +283,15 @@ namespace CMB.BaseConversion
         {
             NumberIn.Clear();
             NumberIn_Leave(sender, EventArgs.Empty);
+
             BaseIn.Text = "base";
             BaseIn.ForeColor = textDimmed;
+            isInitialisedBaseIn = false;
+
             BaseOut.Text = "convert to";
             BaseOut.ForeColor = textDimmed;
+            isInitialisedBaseOut = false;
+
             ResultContainer.Hide();
 
             // MainForm newForm = new MainForm();
