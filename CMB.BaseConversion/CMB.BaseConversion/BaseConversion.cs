@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,141 @@ namespace CMB.BaseConversion
 {
     class BaseConversion
     {
-        // Validate User Input
+        // Converts a Number from One Base to Another
+        public string Convert(string num, int fromRadix, int toRadix)
+        {
+            // Under these conditions, nothing changes
+            if (Double.TryParse(num, out double dbl) && (dbl == 0.0 || dbl == 1.0) || fromRadix == toRadix)
+                return num;
+
+            // Convert our number to a workable decimal format
+            num = ToDecimal(num, fromRadix);
+
+            // If we're converting to decimal, all done
+            if (toRadix == 10)
+                return num;
+
+            // Convert to the desired base
+            num = ToBaseN(num, toRadix);
+            
+            // Return the result
+            return num;
+
+            // !! check at the start if number is negative, strip negative sign, add it back at the end + ammend RegEx to cover optional minus at start
+        }
+
+        // Converts a Number to Decimal
+        private string ToDecimal(string num, int rad)
+        {
+            // Skip if already decimal
+            if (rad == 10)
+                return num;
+
+            // Split number into integral and fractional parts
+            SplitNumber(num, out string numIntegral, out string numFractional);
+
+            // Request indexed symbols
+            char[] charPool = RequestBaseNSymbols(rad);
+
+            // Convert integral part
+            double resInteger = 0.0;
+
+            if (numIntegral != "0" && !(numIntegral == "Z" && rad == 26))
+            {
+                numIntegral = numIntegral.Reverse();
+                
+                for (int i = 0; i < numIntegral.Length; i++)
+                {
+                    resInteger += Array.IndexOf(charPool, numIntegral[i]) * Math.Pow(rad, i);
+                }
+            }
+
+            // Convert fractional part
+            double resFraction = 0.0;
+
+            if (numFractional != String.Empty)
+            {
+                for (int i = 0; i < numFractional.Length; i++)
+                {
+                    resFraction += Array.IndexOf(charPool, numFractional[i]) / Math.Pow(rad, i + 1);
+                }
+            }
+
+            return (resInteger + resFraction).ToString();
+        }
+
+        // Converts a Number to Base-N
+        private string ToBaseN(string num, int rad)
+        {
+            // Split number into integral and fractional parts
+            SplitNumber(num, out string strIntegral, out string strFractional);
+
+            // Convert integral part
+            int numIntegral = Int32.Parse(strIntegral);
+            List<int> resIntegral = new List<int>();
+
+            do
+            {
+                resIntegral.Add(numIntegral % rad);
+                numIntegral /= rad;
+            }
+            while (numIntegral > 0);
+            
+            resIntegral.Reverse();
+
+            // Convert fractional part
+            double? numFractional = null;
+            List<int> resFractional = new List<int>();
+
+            if (strFractional != String.Empty)
+            {
+                numFractional = Double.Parse(String.Format("0.{0}", strFractional));
+
+                while (numFractional > 0)
+                {
+                    int n = (int)(numFractional *= rad);
+                    resFractional.Add(n);
+                    numFractional -= n;
+                }
+            }
+
+            // Assemble and send it on its way
+            char[] charPool = RequestBaseNSymbols(rad);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (int i in resIntegral)
+            {
+                sb.Append(charPool[i]);
+            }
+
+            if (numFractional.HasValue)
+            {
+                sb.Append(".");
+
+                foreach (int i in resFractional)
+                {
+                    sb.Append(charPool[i]);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        // Splits a Number into Integral and Fractional Parts
+        private void SplitNumber(string num, out string numIntegral, out string numFractional)
+        {
+            string[] nums = num.Split('.');
+            bool isInteger = nums.Length == 1;
+
+            numIntegral = nums[0];
+            numFractional = isInteger ? String.Empty : nums[1];
+        }
+        
+        // Validates User Input
         public bool IsValidInput(string num, int rad)
         {
             // Request valid symbols for specified radix
-            char[] validChars = RequestCharPool(rad);
+            char[] validChars = RequestBaseNSymbols(rad);
             
             // Make sure each symbol in the number is valid for the specified radix
             foreach (char c in num)
@@ -31,13 +162,13 @@ namespace CMB.BaseConversion
             return numberFormat.IsMatch(num);
         }
 
-        // Generate an Indexed List of Symbols for Each Base Numeral System
-        private char[] RequestCharPool(int rad)
+        // Generates an Indexed List of Symbols for a Base Numeral System // --- ? make public to retrieve valid symbols ?
+        private char[] RequestBaseNSymbols(int rad)
         {
             // User input is checked by WinForms, invalid radix here means something is wrong!
             if (!IsValidRadix(rad))
             {
-                throw new ArgumentOutOfRangeException("Invalid radix passed to RequestCharPool()");
+                throw new ArgumentOutOfRangeException("Invalid radix passed to RequestBaseNSymbols()");
             }
 
             // Create the array containing all symbols
@@ -59,10 +190,19 @@ namespace CMB.BaseConversion
             }
         }
 
-        // Check Validity of Radix
+        // Checks the Validity of a Radix
         private bool IsValidRadix(int rad)
         {
             return (rad < 2 || rad > 36) ? false : true;
+        }
+    }
+
+    static class StringExtensions
+    {
+        // Reverses a String
+        public static string Reverse(this string str)
+        {
+            return new string(str.ToCharArray().Reverse().ToArray());
         }
     }
 }
