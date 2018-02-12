@@ -10,30 +10,34 @@ namespace CMB.BaseConversion
 {
     class BaseConversion
     {
-        // Converts a Number from One Base to Another
+        /// <summary>Converts a number from one base to another.</summary>
         public string Convert(string num, int fromRadix, int toRadix)
         {
+            // Check if the number is negative
+            bool isNegative = num.Contains("-");
+
+            if (isNegative)
+                num = num.Remove(0, 1);
+            
             // Under these conditions, nothing changes
             if (Double.TryParse(num, out double dbl) && (dbl == 0.0 || dbl == 1.0) || fromRadix == toRadix)
-                return num;
+                return isNegative ? num.Insert(0, "-") : num;
 
             // Convert our number to a workable decimal format
             num = ToDecimal(num, fromRadix);
 
             // If we're converting to decimal, all done
             if (toRadix == 10)
-                return num;
+                return isNegative ? num.Insert(0, "-") : num;
 
             // Convert to the desired base
             num = ToBaseN(num, toRadix);
             
             // Return the result
-            return num;
-
-            // !! check at the start if number is negative, strip negative sign, add it back at the end + ammend RegEx to cover optional minus at start
+            return isNegative ? num.Insert(0, "-") : num;
         }
 
-        // Converts a Number to Decimal
+        /// <summary>Converts a number to decimal.</summary>
         private string ToDecimal(string num, int rad)
         {
             // Skip if already decimal
@@ -73,7 +77,7 @@ namespace CMB.BaseConversion
             return (resInteger + resFraction).ToString();
         }
 
-        // Converts a Number to Base-N
+        /// <summary>Converts a number to base-N.</summary>
         private string ToBaseN(string num, int rad)
         {
             // Split number into integral and fractional parts
@@ -130,7 +134,7 @@ namespace CMB.BaseConversion
             return sb.ToString();
         }
 
-        // Splits a Number into Integral and Fractional Parts
+        /// <summary>Splits a number into integral and fractional parts.</summary>
         private void SplitNumber(string num, out string numIntegral, out string numFractional)
         {
             string[] nums = num.Split('.');
@@ -139,8 +143,8 @@ namespace CMB.BaseConversion
             numIntegral = nums[0];
             numFractional = isInteger ? String.Empty : nums[1];
         }
-        
-        // Validates User Input
+
+        /// <summary>Validates user input.<summary>
         public bool IsValidInput(string num, int rad)
         {
             // Request valid symbols for specified radix
@@ -149,21 +153,22 @@ namespace CMB.BaseConversion
             // Make sure each symbol in the number is valid for the specified radix
             foreach (char c in num)
             {
-                if (c == '.')   // Decimal point valid despite not being in validChars: skip
-                    continue;   // RegEx will guard against having more than one
+                if (c == '-' || c == '.')   // Negative sign & decimal point valid despite not being in validChars: skip
+                    continue;               // RegEx will guard against having more than one
                 
                 if (Array.IndexOf(validChars, c) == -1)   // If current symbol is not found
                     return false;                         // in validChars, number is invalid
             }
             
-            // Alpha-numerical sequence with an optional decimal part
-            Regex numberFormat = new Regex(@"^[A-Z\d]+(\.[A-Z\d]+)?$");
+            // Alpha-numerical sequence with optional negative sign / decimal part
+            Regex numberFormat = new Regex(@"^-?[A-Z\d]+(\.[A-Z\d]+)?$");
             
             return numberFormat.IsMatch(num);
         }
 
-        // Generates an Indexed List of Symbols for a Base Numeral System // --- ? make public to retrieve valid symbols ?
-        private char[] RequestBaseNSymbols(int rad)
+        /// <summary>Generates an indexed list of symbols for a base numeral system.</summary>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public char[] RequestBaseNSymbols(int rad)
         {
             // User input is checked by WinForms, invalid radix here means something is wrong!
             if (!IsValidRadix(rad))
@@ -190,16 +195,16 @@ namespace CMB.BaseConversion
             }
         }
 
-        // Checks the Validity of a Radix
+        /// <summary>Checks the validity of a radix.</summary>
         private bool IsValidRadix(int rad)
         {
             return (rad < 2 || rad > 36) ? false : true;
-        }
+        }   
     }
 
     static class StringExtensions
     {
-        // Reverses a String
+        /// <summary>Reverses a string.</summary>
         public static string Reverse(this string str)
         {
             return new string(str.ToCharArray().Reverse().ToArray());

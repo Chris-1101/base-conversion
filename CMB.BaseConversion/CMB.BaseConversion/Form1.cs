@@ -15,7 +15,7 @@ namespace CMB.BaseConversion
 {
     public partial class MainForm : Form
     {
-        // Base Conversion
+        // Base Conversion Instantiation
         private BaseConversion bc = new BaseConversion();
         
         // Main WinForms Constructor
@@ -214,50 +214,60 @@ namespace CMB.BaseConversion
         // Convert Button Behaviour
         private void Convert_Click(object sender, EventArgs e)
         {
-            string NumberInValue = NumberIn.Text.Trim(' ').ToUpper();
-            bool isInitialisedBaseIn = Int32.TryParse(ExtractBaseDigits(BaseIn.Text), out int BaseInValue);
-            bool isInitialisedBaseOut = Int32.TryParse(ExtractBaseDigits(BaseOut.Text), out int BaseOutValue);
+            string numberInValue = NumberIn.Text.Trim(' ').ToUpper();
+            bool isInitialisedBaseIn = Int32.TryParse(ExtractBaseDigits(BaseIn.Text), out int baseInValue);
+            bool isInitialisedBaseOut = Int32.TryParse(ExtractBaseDigits(BaseOut.Text), out int baseOutValue);
+
+            string myTitle = "Chris MB's Base Conversion";
 
             // Validate user input
             if (!isInitialisedNumber)
             {
-                MessageBox.Show("Please enter a number to be converted.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please enter a number to be converted.", myTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else if (!isInitialisedBaseIn)
             {
-                MessageBox.Show("Please specify the number's base/radix.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please specify the number's base/radix.", myTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else if (!isInitialisedBaseOut)
             {
-                MessageBox.Show("Please specify the base/radix to convert the number to.", "Chris MB's Base Conversion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please specify the base/radix to convert the number to.", myTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else if (!bc.IsValidInput(NumberInValue, BaseInValue))
+            else if (!bc.IsValidInput(numberInValue, baseInValue))
             {
-                MessageBox.Show(
-                    "You entered an invalid number/base combination.\n\nMake sure you're not trying to use a symbol that doesn't exist for your specified base" +
-                    " (in base-8, for instance, 7 is the highest digit, not 8).\n\nIf using Base-26, only alphabetical letters are valid.",
-                    "Chris MB's Base Conversion",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                string invalidText = String.Format("You entered an invalid number/base combination.\nValid symbols for base-{0}: {1}", baseInValue.ToString(), GetSymbols());
+                MessageBox.Show(invalidText, myTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else // Send data to result fields
             {
-                ResultIn.Text = NumberInValue;
-                ResultInBase.Text = BaseInValue.ToString();
+                ResultIn.Text = numberInValue;
+                ResultInBase.Text = baseInValue.ToString();
                 ResultEquals.Text = "  =  ";
-                ResultOut.Text = bc.Convert(NumberInValue, BaseInValue, BaseOutValue);
-                ResultOutBase.Text = BaseOutValue.ToString();
+                ResultOut.Text = bc.Convert(numberInValue, baseInValue, baseOutValue);
+                ResultOutBase.Text = baseOutValue.ToString();
 
                 UpdateResultPosition();
                 UpdateControlHighlight(sender);
 
                 ResultContainer.Show();
             }
-
-            // Needs more work after base conversion class has been implemented
         }
         
+        private string GetSymbols()
+        {
+            int baseInValue = Int32.Parse(ExtractBaseDigits(BaseIn.Text));
+            char[] charPool = bc.RequestBaseNSymbols(baseInValue);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in charPool)
+            {
+                sb.Append(c + ", ");
+            }
+
+            sb.Length -= 2;
+            return sb.Append(".").ToString();
+        }
+
         private string ExtractBaseDigits(string str)
         {
             return Regex.Match(str, "(\\d+)").Groups[1].Value;
