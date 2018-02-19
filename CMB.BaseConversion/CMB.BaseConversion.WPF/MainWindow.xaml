@@ -1,0 +1,34 @@
+﻿<Window x:Class="CMB.BaseConversion.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
+        mc:Ignorable="d"
+        
+        xmlns:properties="clr-namespace:CMB.BaseConversion.WPF.Properties"
+        
+        x:Name="RootWindow" Title="Base Conversion"
+        WindowStyle="None" ResizeMode="CanMinimize"
+        Width="960" Height="540">
+    
+    <Grid x:Name="LayoutContainer">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="500"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="830"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="TitleBar" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource TitleBarBG}">
+            <Image DockPanel.Dock="Left" Source="{StaticResource BaseConversionImg}" Stretch="Uniform" Width="203" Height="40"/>
+        </Canvas>
+        <StackPanel x:Name="SideBar" Grid.Row="1" Grid.Column="0" Background="{StaticResource SideBarBG}">
+            
+        </StackPanel>
+        <Border x:Name="ContentPage" Grid.Row="1" Grid.Column="1" Background="{StaticResource ContentBG}">
+            
+        </Border>
+    </Grid>
+</Window>
