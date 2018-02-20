@@ -4,15 +4,202 @@
              xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
+        <!-- Fonts -->
+        <FontFamily x:Key="HelveticaNeueLtEx">pack://application:,,,/fonts/#Helvetica Neue LT Pro 43 Light Extended</FontFamily>
+        
+        <!-- Images -->
+        <BitmapImage x:Key="BaseConversionImg" UriSource="images/BaseConversion.png"/>
+        <BitmapImage x:Key="CMBLogo" UriSource="images/CMBLogo.png"/>
+        <ImageBrush x:Key="CloseBtn" ImageSource="images/CloseButton.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="MinimiseBtn" ImageSource="images/MinimiseButton.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="ContentBG" ImageSource="images/ContentBG.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="DropDownArrow" ImageSource="images/DropDownArrow.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="TabConvert" ImageSource="images/TabConvert.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="TabResetIdle" ImageSource="images/TabResetIdle.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="TabResetHover" ImageSource="images/TabResetHover.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="TabExitIdle" ImageSource="images/TabExitIdle.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="TabExitHover" ImageSource="images/TabExitHover.png" Stretch="Uniform"/>
+
+        <!-- Colours -->
+        <SolidColorBrush x:Key="TitleBarBG">#070A1E</SolidColorBrush>
+        <LinearGradientBrush x:Key="SideBarBG" StartPoint="0,0" EndPoint="0, 1">
+            <GradientStop Color="#160C26" Offset="0"/>
+            <GradientStop Color="#020211" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Definitions -->
+        <SolidColorBrush x:Key="InputBorderInactive">#18384E</SolidColorBrush>
+        <SolidColorBrush x:Key="InputBorderActive">#0C7688</SolidColorBrush>
+        <SolidColorBrush x:Key="InputBackground">#0A0C7688</SolidColorBrush>
+        <SolidColorBrush x:Key="InputTextInactive">#23566E</SolidColorBrush>
+        <SolidColorBrush x:Key="ResultBorder">#18384E</SolidColorBrush>
+        <SolidColorBrush x:Key="ResultBackground">#0445E6E9</SolidColorBrush>
+        <Duration x:Key="TransitionDuration">00:00:00.300</Duration>
+
+        <!-- Image Button -->
+        <ControlTemplate x:Key="ImageButton" TargetType="{x:Type Button}">
             <!-- Resource Definitions -->
-            <SolidColorBrush x:Key="TitleBarBG">#070A1E</SolidColorBrush>
-            <LinearGradientBrush x:Key="SideBarBG" StartPoint="0,0" EndPoint="0, 1">
-                <GradientStop Color="#160D26" Offset="0"/> <!-- #150B25 -->
-                <GradientStop Color="#020211" Offset="1"/>
-            </LinearGradientBrush>
-            <SolidColorBrush x:Key="ContentBG">#121430</SolidColorBrush>
-            <BitmapImage x:Key="BaseConversionImg" UriSource="images/BaseConversion.png"/>
-        </ResourceDictionary>
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="MouseOverAnimation">
+                    <DoubleAnimation Storyboard.TargetName="MouseOverBG"
+                                     Storyboard.TargetProperty="Opacity"
+                                     Duration="{StaticResource TransitionDuration}"
+                                     To="1"/>
+                </Storyboard>
+                <Storyboard x:Key="MouseOutAnimation">
+                    <DoubleAnimation Storyboard.TargetName="MouseOverBG"
+                                     Storyboard.TargetProperty="Opacity"
+                                     Duration="{StaticResource TransitionDuration}"
+                                     To="0"/>
+                </Storyboard>
+            </ControlTemplate.Resources>
+
+            <!-- Visual Tree -->
+            <Grid x:Name="Root">
+                <Border x:Name="NormalBG" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" Opacity="1"/>
+                <Border x:Name="MouseOverBG" Background="{TemplateBinding BorderBrush}" BorderBrush="Transparent" BorderThickness="0" Opacity="0"/>
+            </Grid>
+
+            <!-- Mouse States -->
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource MouseOverAnimation}"/>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource MouseOutAnimation}"/>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <!-- Input TextBox -->
+        <Style x:Key="InputTextBox" TargetType="{x:Type TextBox}">
+            <!-- Style -->
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="TextElement.Foreground" Value="{StaticResource InputTextInactive}" />
+            <Setter Property="FontFamily" Value="{StaticResource HelveticaNeueLtEx}" />
+            <Setter Property="FontSize" Value="18" />
+
+            <!-- Control Template -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid x:Name="Root" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+
+                            <!-- Border - Normal State -->
+                            <Border x:Name="NormalBorder"
+                                    BorderBrush="{StaticResource InputBorderInactive}"
+                                    BorderThickness="1"
+                                    Background="Transparent" />
+
+                            <!-- Border - Focused State -->
+                            <Border x:Name="FocusedBorder" Opacity="0"
+                                    BorderBrush="{StaticResource InputBorderActive}"
+                                    BorderThickness="1"
+                                    Background="{StaticResource InputBackground}" />
+
+                            <!-- Content-Presenter -->
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          Background="{x:Null}"
+                                          Margin="14, 2"
+                                          Padding="{TemplateBinding Padding}"
+                                          IsTabStop="{TemplateBinding IsTabStop}"/>
+
+                            <!-- Visual States -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="FocusedStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation BeginTime="00:00:00.000" Duration="{StaticResource TransitionDuration}"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             Storyboard.TargetName="FocusedBorder"
+                                                             To="1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused">
+                                        <Storyboard>
+                                            <DoubleAnimation BeginTime="00:00:00.000" Duration="{StaticResource TransitionDuration}"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             Storyboard.TargetName="FocusedBorder"
+                                                             To="0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Input Drop Down List -->
+        <Style x:Key="InputComboBox" TargetType="{x:Type ComboBox}">
+            <!-- Style -->
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Background" Value="Transparent" />
+
+            <!-- Control Template -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid x:Name="DropDownRoot">
+                            <!-- Initial Box -->
+                            <ToggleButton x:Name="DropDownToggle"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalContentAlignment="Right"
+                                          Margin="-1"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Border x:Name="DropDownArrow"
+                                        Width="24" Height="12"
+                                        Margin="11, 2"
+                                        Background="{StaticResource DropDownArrow}"/>
+                            </ToggleButton>
+                            <!-- Selection Display -->
+                            <ContentPresenter x:Name="DropDownSelection"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Margin="6, 2, 25, 2"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            <!-- Editable TextBox -->
+                            <TextBox x:Name="PART_EditableTextBox"
+                                     Style="{x:Null}"
+                                     Focusable="False"
+                                     Background="{TemplateBinding Background}"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Margin="3, 3, 23, 3"
+                                     Visibility="Hidden"
+                                     IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <!-- DropDown List -->
+                            <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" PopupAnimation="Slide">
+                                <Border x:Name="DropDownBorder"
+                                        HorizontalAlignment="Stretch" Height="Auto"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        Background="Transparent">
+                                    <ScrollViewer x:Name="ScrollViewer" BorderThickness="0" Padding="1">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

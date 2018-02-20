@@ -1,18 +1,21 @@
-﻿<Window x:Class="CMB.BaseConversion.WPF.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
-        mc:Ignorable="d"
         
         xmlns:properties="clr-namespace:CMB.BaseConversion.WPF.Properties"
+        
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic" x:Class="CMB.BaseConversion.WPF.MainWindow"
+        mc:Ignorable="d"
         
         x:Name="RootWindow" Title="Base Conversion"
         WindowStyle="None" ResizeMode="CanMinimize"
         Width="960" Height="540">
-    
+
     <Grid x:Name="LayoutContainer">
+        <!-- Layout Container -->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="500"/>
@@ -21,14 +24,74 @@
             <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="830"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="TitleBar" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource TitleBarBG}">
-            <Image DockPanel.Dock="Left" Source="{StaticResource BaseConversionImg}" Stretch="Uniform" Width="203" Height="40"/>
+
+        <!-- Title Bar -->
+        <Canvas x:Name="TitleBar" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource TitleBarBG}" MouseDown="TitleBar_MouseDown">
+            <Image Source="{StaticResource BaseConversionImg}" Stretch="Uniform" Width="203" Height="40"/>
+            <Button x:Name="CloseWin" Click="CloseWin_Click"
+                    Width="16" Height="16" Margin="930, 12, 0, 0"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource ResourceKey=CloseBtn}"/>
+            <Button x:Name="MinimiseWin" Click="MinimiseWin_Click"
+                    Width="16" Height="16" Margin="900, 12, 0, 0"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource ResourceKey=MinimiseBtn}"/>
         </Canvas>
+
+        <!-- Side Bar -->
         <StackPanel x:Name="SideBar" Grid.Row="1" Grid.Column="0" Background="{StaticResource SideBarBG}">
-            
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,0,0,2"/>
+                </Style>
+            </StackPanel.Resources>
+            <Image x:Name="Logo" Source="{StaticResource CMBLogo}" Stretch="Uniform" Width="130" Height="124"/>
+            <Button x:Name="ConvertTab"
+                    Width="130" Height="50"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource TabConvert}"/>
+            <Button x:Name="ResetTab" Click="ResetTab_Click"
+                    Width="130" Height="50"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource TabResetIdle}"
+                    BorderBrush="{StaticResource TabResetHover}"/>
+            <Button x:Name="ExitTab" Click="ExitTab_Click"
+                    Width="130" Height="50"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource TabExitIdle}"
+                    BorderBrush="{StaticResource TabExitHover}"/>
         </StackPanel>
-        <Border x:Name="ContentPage" Grid.Row="1" Grid.Column="1" Background="{StaticResource ContentBG}">
+
+        <!-- Content Page -->
+        <Canvas x:Name="ContentPage" Grid.Row="1" Grid.Column="1" Background="{StaticResource ContentBG}">
+            <!-- Input Fields -->
+            <TextBox x:Name="InputNumber"
+                     Width="621" Height="41" Margin="105, 114, 0, 0"
+                     Style="{StaticResource InputTextBox}"
+                     Text="number"/>
+
+            <ComboBox x:Name="InputBaseIn"
+                      Width="301" Height="41" Margin="105, 174, 0, 0"
+                      Style="{StaticResource InputComboBox}"/>
+
+            <ComboBox x:Name="InputBaseOut"
+                      Width="301" Height="41" Margin="425, 174, 0, 0"
+                      Style="{StaticResource InputComboBox}"/>
             
-        </Border>
+            <!-- Result Field -->
+            <Border x:Name="Result"
+                  Width="621" Height="41" Margin="105, 344, 0, 0"
+                  Background="{StaticResource ResultBackground}"
+                  BorderBrush="{StaticResource ResultBorder}"
+                  BorderThickness="1">
+                <Grid>
+                    <Label>1101</Label>
+                    <Label> 2</Label>
+                    <Label> = </Label>
+                    <Label>13 </Label>
+                    <Label>10</Label>
+                </Grid>
+            </Border>
+        </Canvas>
     </Grid>
 </Window>

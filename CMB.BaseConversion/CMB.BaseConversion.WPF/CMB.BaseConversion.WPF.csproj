@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -86,6 +87,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="fonts\HelveticaNeueLTPro-LtEx.otf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,6 +113,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\MinimiseButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\TabConvert.png" />
+    <Resource Include="images\TabExitHover.png" />
+    <Resource Include="images\TabExitIdle.png" />
+    <Resource Include="images\TabResetHover.png" />
+    <Resource Include="images\TabResetIdle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
