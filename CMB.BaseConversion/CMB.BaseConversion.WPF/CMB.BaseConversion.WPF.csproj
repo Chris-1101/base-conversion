@@ -88,6 +88,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="fonts\HelveticaNeueLTPro-LtEx.otf" />
+    <Resource Include="fonts\CGothicReg.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -120,6 +121,9 @@
     <Resource Include="images\TabExitIdle.png" />
     <Resource Include="images\TabResetHover.png" />
     <Resource Include="images\TabResetIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ConvertButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

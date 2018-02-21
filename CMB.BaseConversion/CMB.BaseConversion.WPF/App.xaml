@@ -3,22 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
              StartupUri="MainWindow.xaml">
+    
     <Application.Resources>
         <!-- Fonts -->
         <FontFamily x:Key="HelveticaNeueLtEx">pack://application:,,,/fonts/#Helvetica Neue LT Pro 43 Light Extended</FontFamily>
+        <FontFamily x:Key="CenturyGothicReg">pack://application:,,,/fonts/#Century Gothic Regular</FontFamily>
         
         <!-- Images -->
         <BitmapImage x:Key="BaseConversionImg" UriSource="images/BaseConversion.png"/>
-        <BitmapImage x:Key="CMBLogo" UriSource="images/CMBLogo.png"/>
-        <ImageBrush x:Key="CloseBtn" ImageSource="images/CloseButton.png" Stretch="Uniform"/>
         <ImageBrush x:Key="MinimiseBtn" ImageSource="images/MinimiseButton.png" Stretch="Uniform"/>
-        <ImageBrush x:Key="ContentBG" ImageSource="images/ContentBG.png" Stretch="Uniform"/>
-        <ImageBrush x:Key="DropDownArrow" ImageSource="images/DropDownArrow.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="CloseBtn" ImageSource="images/CloseButton.png" Stretch="Uniform"/>
+        <BitmapImage x:Key="CMBLogo" UriSource="images/CMBLogo.png"/>
         <ImageBrush x:Key="TabConvert" ImageSource="images/TabConvert.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabResetIdle" ImageSource="images/TabResetIdle.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabResetHover" ImageSource="images/TabResetHover.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabExitIdle" ImageSource="images/TabExitIdle.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabExitHover" ImageSource="images/TabExitHover.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="ContentBG" ImageSource="images/ContentBG.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="DropDownArrow" ImageSource="images/DropDownArrow.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="ConvertBtn" ImageSource="images/ConvertButton.png" Stretch="Uniform"/>
 
         <!-- Colours -->
         <SolidColorBrush x:Key="TitleBarBG">#070A1E</SolidColorBrush>
@@ -27,13 +30,20 @@
             <GradientStop Color="#020211" Offset="1"/>
         </LinearGradientBrush>
 
-        <!-- Definitions -->
         <SolidColorBrush x:Key="InputBorderInactive">#18384E</SolidColorBrush>
         <SolidColorBrush x:Key="InputBorderActive">#0C7688</SolidColorBrush>
-        <SolidColorBrush x:Key="InputBackground">#0A0C7688</SolidColorBrush>
+        <SolidColorBrush x:Key="InputBGActive">#1A0C7688</SolidColorBrush>
         <SolidColorBrush x:Key="InputTextInactive">#23566E</SolidColorBrush>
+        <SolidColorBrush x:Key="InputTextActive">#74CBD3</SolidColorBrush>
+
+        <SolidColorBrush x:Key="ListItem.Border">#0A45E6E9</SolidColorBrush>
+        <Color x:Key="ListItem.BGInactive">#0A45E6E9</Color>
+        <Color x:Key="ListItem.BGActive">#1A45E6E9</Color>
+
+        <SolidColorBrush x:Key="ResultBackground">#0A45E6E9</SolidColorBrush>
         <SolidColorBrush x:Key="ResultBorder">#18384E</SolidColorBrush>
-        <SolidColorBrush x:Key="ResultBackground">#0445E6E9</SolidColorBrush>
+
+        <!-- Animations -->
         <Duration x:Key="TransitionDuration">00:00:00.300</Duration>
 
         <!-- Image Button -->
@@ -80,8 +90,9 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="TextElement.Foreground" Value="{StaticResource InputTextInactive}" />
-            <Setter Property="FontFamily" Value="{StaticResource HelveticaNeueLtEx}" />
+            <Setter Property="Foreground" Value="{StaticResource InputTextInactive}" />
+            <Setter Property="CaretBrush" Value="{StaticResource InputTextInactive}" />
+            <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}" />
             <Setter Property="FontSize" Value="18" />
 
             <!-- Control Template -->
@@ -100,7 +111,7 @@
                             <Border x:Name="FocusedBorder" Opacity="0"
                                     BorderBrush="{StaticResource InputBorderActive}"
                                     BorderThickness="1"
-                                    Background="{StaticResource InputBackground}" />
+                                    Background="{StaticResource InputBGActive}" />
 
                             <!-- Content-Presenter -->
                             <ScrollViewer x:Name="PART_ContentHost"
@@ -144,26 +155,82 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderInactive}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
 
             <!-- Control Template -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Grid x:Name="DropDownRoot">
-                            <!-- Initial Box -->
+                            <!-- Toggle Button -->
                             <ToggleButton x:Name="DropDownToggle"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Stretch"
                                           HorizontalContentAlignment="Right"
-                                          Margin="-1"
-                                          Background="Transparent"
-                                          BorderBrush="Transparent"
                                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <Border x:Name="DropDownArrow"
-                                        Width="24" Height="12"
-                                        Margin="11, 2"
-                                        Background="{StaticResource DropDownArrow}"/>
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}">
+                                        <Setter Property="MinWidth" Value="0"/>
+                                        <Setter Property="MinHeight" Value="0"/>
+                                        <Setter Property="Width" Value="Auto"/>
+                                        <Setter Property="Height" Value="Auto"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource InputBorderInactive}"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                    <Grid>
+                                                        <Border x:Name="DropDownBorder" Panel.ZIndex="1"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                                                        <Border x:Name="FocusedBG" Panel.ZIndex="2" Opacity="0"
+                                                                Background="{StaticResource InputBGActive}"
+                                                                BorderBrush="{StaticResource InputBorderActive}"/>
+
+                                                        <Border x:Name="DropDownArrow" Panel.ZIndex="3"
+                                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                Width="24" Height="12"
+                                                                Margin="14, 3, 14, 0"
+                                                                Background="{StaticResource DropDownArrow}"/>
+                                                    </Grid>
+
+                                                    <ControlTemplate.Resources>
+                                                        <Storyboard x:Key="FocusedAnimationIn">
+                                                            <DoubleAnimation Storyboard.TargetName="FocusedBG"
+                                                                             Storyboard.TargetProperty="Opacity"
+                                                                             Duration="{StaticResource TransitionDuration}"
+                                                                             To="1"/>
+                                                        </Storyboard>
+                                                        <Storyboard x:Key="FocusedAnimationOut">
+                                                            <DoubleAnimation Storyboard.TargetName="FocusedBG"
+                                                                             Storyboard.TargetProperty="Opacity"
+                                                                             Duration="{StaticResource TransitionDuration}"
+                                                                             To="0"/>
+                                                        </Storyboard>
+                                                    </ControlTemplate.Resources>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard Storyboard="{StaticResource FocusedAnimationIn}"/>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard Storyboard="{StaticResource FocusedAnimationOut}"/>
+                                                            </Trigger.ExitActions>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
                             </ToggleButton>
+                            
                             <!-- Selection Display -->
                             <ContentPresenter x:Name="DropDownSelection"
                                               HorizontalAlignment="Left"
@@ -173,6 +240,7 @@
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            
                             <!-- Editable TextBox -->
                             <TextBox x:Name="PART_EditableTextBox"
                                      Style="{x:Null}"
@@ -183,20 +251,70 @@
                                      Margin="3, 3, 23, 3"
                                      Visibility="Hidden"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            
                             <!-- DropDown List -->
                             <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" PopupAnimation="Slide">
-                                <Border x:Name="DropDownBorder"
-                                        HorizontalAlignment="Stretch" Height="Auto"
-                                        MinWidth="{TemplateBinding ActualWidth}"
-                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                        Background="Transparent">
-                                    <ScrollViewer x:Name="ScrollViewer" BorderThickness="0" Padding="1">
-                                        <ItemsPresenter/>
-                                    </ScrollViewer>
-                                </Border>
+                                <ScrollViewer x:Name="ScrollViewer"
+                                              HorizontalAlignment="Stretch"
+                                              MinWidth="{TemplateBinding ActualWidth}"
+                                              MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                              Height="Auto">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
                             </Popup>
                         </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <!--<Setter Property="OverridesDefaultStyle" Value="true"/>-->
+            <Setter Property="Background" Value="{StaticResource ListItem.Border}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderInactive}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
+            <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0, -1, 0, 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border Name="Border"
+                                Padding="16, 3, 16, 4"
+                                SnapsToDevicePixels="true"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter />
+                        </Border>
+                        
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="HighlightIn">
+                                <ColorAnimation To="{StaticResource ListItem.BGActive}"
+                                                Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                Duration="{StaticResource TransitionDuration}"/>
+                            </Storyboard>
+                            <Storyboard x:Key="HighlightOut">
+                                <ColorAnimation To="{StaticResource ListItem.BGInactive}"
+                                                Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                Duration="{StaticResource TransitionDuration}"/>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HighlightIn}"/>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HighlightOut}"/>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

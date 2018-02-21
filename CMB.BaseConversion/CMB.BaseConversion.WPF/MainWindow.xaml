@@ -4,17 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
-        
-        xmlns:properties="clr-namespace:CMB.BaseConversion.WPF.Properties"
-        
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic" x:Class="CMB.BaseConversion.WPF.MainWindow"
+        x:Class="CMB.BaseConversion.WPF.MainWindow"
         mc:Ignorable="d"
         
         x:Name="RootWindow" Title="Base Conversion"
         WindowStyle="None" ResizeMode="CanMinimize"
         Width="960" Height="540">
 
-    <Grid x:Name="LayoutContainer">
+    <Grid x:Name="LayoutContainer" MouseUp="LayoutContainer_MouseUp">
         <!-- Layout Container -->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -27,7 +24,7 @@
 
         <!-- Title Bar -->
         <Canvas x:Name="TitleBar" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource TitleBarBG}" MouseDown="TitleBar_MouseDown">
-            <Image Source="{StaticResource BaseConversionImg}" Stretch="Uniform" Width="203" Height="40"/>
+            <Image x:Name="TitleWin" Source="{StaticResource BaseConversionImg}" Stretch="Uniform" Width="203" Height="40"/>
             <Button x:Name="CloseWin" Click="CloseWin_Click"
                     Width="16" Height="16" Margin="930, 12, 0, 0"
                     Template="{StaticResource ImageButton}"
@@ -65,19 +62,42 @@
         <!-- Content Page -->
         <Canvas x:Name="ContentPage" Grid.Row="1" Grid.Column="1" Background="{StaticResource ContentBG}">
             <!-- Input Fields -->
-            <TextBox x:Name="InputNumber"
+            <TextBox x:Name="InputNumber" GotFocus="InputNumber_GotFocus" LostFocus="InputNumber_LostFocus"
                      Width="621" Height="41" Margin="105, 114, 0, 0"
                      Style="{StaticResource InputTextBox}"
                      Text="number"/>
 
-            <ComboBox x:Name="InputBaseIn"
+            <ComboBox x:Name="InputBaseIn" MaxDropDownHeight="120"
                       Width="301" Height="41" Margin="105, 174, 0, 0"
-                      Style="{StaticResource InputComboBox}"/>
+                      Style="{StaticResource InputComboBox}"
+                      DropDownOpened="InputBase_DropDownOpened" DropDownClosed="InputBase_DropDownClosed">
+                <ComboBoxItem Content="Base-2: Binary"/>
+                <ComboBoxItem Content="Base-3: Ternary"/>
+                <ComboBoxItem Content="Base-4: Quaternary"/>
+                <ComboBoxItem Content="Base-5: Quinary"/>
+                <ComboBoxItem Content="Base-6: Senary"/>
+                <ComboBoxItem Content="Base-8: Octal"/>
+                <ComboBoxItem Content="Base-10: Decimal"/>
+                <ComboBoxItem Content="Base-12: Duodecimal"/>
+                <ComboBoxItem Content="Base-16: Hexadecimal"/>
+                <ComboBoxItem Content="Base-20: Vigesimal"/>
+                <ComboBoxItem Content="Base-26: Hexavigesimal"/>
+                <ComboBoxItem Content="Base-36: Hexatridecimal"/>
+            </ComboBox>
 
             <ComboBox x:Name="InputBaseOut"
                       Width="301" Height="41" Margin="425, 174, 0, 0"
-                      Style="{StaticResource InputComboBox}"/>
-            
+                      Style="{StaticResource InputComboBox}"
+                      DropDownOpened="InputBase_DropDownOpened" DropDownClosed="InputBase_DropDownClosed"/>
+
+            <Button x:Name="ConvertInput" Click="ConvertInput_Click"
+                    Width="301" Height="41" Opacity="1"
+                    Canvas.Left="265" Canvas.Top="234"
+                    Template="{StaticResource ImageButton}"
+                    Background="{StaticResource ConvertBtn}"/>
+
+            <!-- Canvas.Left/top !! replace margin values -->
+
             <!-- Result Field -->
             <Border x:Name="Result"
                   Width="621" Height="41" Margin="105, 344, 0, 0"
@@ -86,9 +106,9 @@
                   BorderThickness="1">
                 <Grid>
                     <Label>1101</Label>
-                    <Label> 2</Label>
-                    <Label> = </Label>
-                    <Label>13 </Label>
+                    <Label>2</Label>
+                    <Label>=</Label>
+                    <Label>13</Label>
                     <Label>10</Label>
                 </Grid>
             </Border>
