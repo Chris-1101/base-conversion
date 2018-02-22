@@ -34,7 +34,7 @@
         <SolidColorBrush x:Key="InputBorderActive">#0C7688</SolidColorBrush>
         <SolidColorBrush x:Key="InputBGActive">#1A0C7688</SolidColorBrush>
         <SolidColorBrush x:Key="InputTextInactive">#23566E</SolidColorBrush>
-        <SolidColorBrush x:Key="InputTextActive">#74CBD3</SolidColorBrush>
+        <SolidColorBrush x:Key="InputTextActive">#45E6E9</SolidColorBrush> <!-- #74CBD3 -->
 
         <SolidColorBrush x:Key="ListItem.Border">#0A45E6E9</SolidColorBrush>
         <Color x:Key="ListItem.BGInactive">#0A45E6E9</Color>
@@ -43,10 +43,15 @@
         <SolidColorBrush x:Key="ResultBackground">#0A45E6E9</SolidColorBrush>
         <SolidColorBrush x:Key="ResultBorder">#18384E</SolidColorBrush>
 
+        <SolidColorBrush x:Key="WarningBG">#1AD15906</SolidColorBrush> <!-- might need alpha increase -->
+        <SolidColorBrush x:Key="WarningBorder">#D15906</SolidColorBrush>
+        <SolidColorBrush x:Key="ErrorBG">#1AC42A13</SolidColorBrush> <!-- might need alpha increase-->
+        <SolidColorBrush x:Key="ErrorBorder">#C42A13</SolidColorBrush>
+
         <!-- Animations -->
         <Duration x:Key="TransitionDuration">00:00:00.300</Duration>
 
-        <!-- Image Button -->
+        <!-- Image Button (Window Controls, Tabs, Convert Button) -->
         <ControlTemplate x:Key="ImageButton" TargetType="{x:Type Button}">
             <!-- Resource Definitions -->
             <ControlTemplate.Resources>
@@ -91,7 +96,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{StaticResource InputTextInactive}" />
-            <Setter Property="CaretBrush" Value="{StaticResource InputTextInactive}" />
+            <Setter Property="CaretBrush" Value="{StaticResource InputTextActive}" />
             <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}" />
             <Setter Property="FontSize" Value="18" />
 
@@ -99,8 +104,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
+                        <!-- Visual Tree -->
                         <Grid x:Name="Root" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-
                             <!-- Border - Normal State -->
                             <Border x:Name="NormalBorder"
                                     BorderBrush="{StaticResource InputBorderInactive}"
@@ -122,7 +127,7 @@
                                           Padding="{TemplateBinding Padding}"
                                           IsTabStop="{TemplateBinding IsTabStop}"/>
 
-                            <!-- Visual States -->
+                            <!-- Event States -->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="FocusedStates">
                                     <VisualState x:Name="Focused">
@@ -151,7 +156,7 @@
 
         <!-- Input Drop Down List -->
         <Style x:Key="InputComboBox" TargetType="{x:Type ComboBox}">
-            <!-- Style -->
+            <!-- ComboBox Style -->
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Background" Value="Transparent" />
@@ -159,19 +164,18 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
 
-            <!-- Control Template -->
+            <!-- ComboBox Control Template -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <!-- ComboBox Visual Tree -->
                         <Grid x:Name="DropDownRoot">
                             <!-- Toggle Button -->
                             <ToggleButton x:Name="DropDownToggle"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          HorizontalContentAlignment="Right"
                                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ToggleButton.Style>
                                     <Style TargetType="{x:Type ToggleButton}">
+                                        <!-- Toggle Button Style -->
                                         <Setter Property="MinWidth" Value="0"/>
                                         <Setter Property="MinHeight" Value="0"/>
                                         <Setter Property="Width" Value="Auto"/>
@@ -179,9 +183,15 @@
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="BorderBrush" Value="{StaticResource InputBorderInactive}"/>
                                         <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        
+                                        <!-- Toggle Button Control Template -->
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                    <!-- Toggle Button Visual Tree -->
                                                     <Grid>
                                                         <Border x:Name="DropDownBorder" Panel.ZIndex="1"
                                                                 Background="{TemplateBinding Background}"
@@ -199,6 +209,7 @@
                                                                 Background="{StaticResource DropDownArrow}"/>
                                                     </Grid>
 
+                                                    <!-- Toggle Button Resources -->
                                                     <ControlTemplate.Resources>
                                                         <Storyboard x:Key="FocusedAnimationIn">
                                                             <DoubleAnimation Storyboard.TargetName="FocusedBG"
@@ -214,6 +225,7 @@
                                                         </Storyboard>
                                                     </ControlTemplate.Resources>
 
+                                                    <!-- Toggle Button Event States -->
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsChecked" Value="True">
                                                             <Trigger.EnterActions>
@@ -235,7 +247,10 @@
                             <ContentPresenter x:Name="DropDownSelection"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Center"
-                                              Margin="6, 2, 25, 2"
+                                              TextBlock.Foreground="{StaticResource InputTextActive}"
+                                              TextBlock.FontFamily="{StaticResource CenturyGothicReg}"
+                                              TextBlock.FontSize="16"
+                                              Margin="17, 2, 51, 2"
                                               IsHitTestVisible="False"
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
@@ -243,12 +258,16 @@
                             
                             <!-- Editable TextBox -->
                             <TextBox x:Name="PART_EditableTextBox"
-                                     Style="{x:Null}"
                                      Focusable="False"
-                                     Background="{TemplateBinding Background}"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
-                                     Margin="3, 3, 23, 3"
+                                     TextBlock.Foreground="{StaticResource InputTextActive}"
+                                     TextBlock.FontFamily="{StaticResource CenturyGothicReg}"
+                                     TextBlock.FontSize="16"
+                                     Margin="17, 2, 51, 2"
                                      Visibility="Hidden"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"/>
                             
@@ -268,28 +287,34 @@
             </Setter>
         </Style>
 
+        <!-- List Items for ComboBox -->
         <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <!-- Style -->
             <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <!--<Setter Property="OverridesDefaultStyle" Value="true"/>-->
             <Setter Property="Background" Value="{StaticResource ListItem.Border}"/>
             <Setter Property="BorderBrush" Value="{StaticResource InputBorderInactive}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
-            <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="{StaticResource HelveticaNeueLtEx}"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="0, -1, 0, 0"/>
+            <Setter Property="Padding" Value="7, 3, 7, 4"/>
+            
+            <!-- Control Template -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <!-- Visual Tree -->
                         <Border Name="Border"
-                                Padding="16, 3, 16, 4"
-                                SnapsToDevicePixels="true"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter />
                         </Border>
                         
+                        <!-- Resources -->
                         <ControlTemplate.Resources>
                             <Storyboard x:Key="HighlightIn">
                                 <ColorAnimation To="{StaticResource ListItem.BGActive}"
@@ -305,6 +330,7 @@
                             </Storyboard>
                         </ControlTemplate.Resources>
                         
+                        <!-- Event States -->
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="true">
                                 <Trigger.EnterActions>
