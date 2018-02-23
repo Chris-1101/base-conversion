@@ -255,7 +255,7 @@
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
-                            
+
                             <!-- Editable TextBox -->
                             <TextBox x:Name="PART_EditableTextBox"
                                      Focusable="False"
@@ -277,6 +277,7 @@
                                               HorizontalAlignment="Stretch"
                                               MinWidth="{TemplateBinding ActualWidth}"
                                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                              Template="{DynamicResource ScrollViewerControlTemplate}"
                                               Height="Auto">
                                     <ItemsPresenter/>
                                 </ScrollViewer>
@@ -340,6 +341,82 @@
                                     <BeginStoryboard Storyboard="{StaticResource HighlightOut}"/>
                                 </Trigger.ExitActions>
                             </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Scroll Viewer for ComboBox -->
+        <ControlTemplate x:Key="ScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Corner" Grid.Column="1" Grid.Row="1"/>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.RowSpan="2" Margin="{TemplateBinding Padding}" Grid.ColumnSpan="2"/>
+                <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Width="8"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Height="8"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="MinWidth" Value="20"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Background="{TemplateBinding Background}">
+                            <Track x:Name="PART_Track" Orientation="Vertical" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Style="{DynamicResource DropDownThumb}"/>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Style="{DynamicResource SimpleScrollRepeatButtonStyle}" Command="ScrollBar.PageDownCommand"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Style="{DynamicResource SimpleScrollRepeatButtonStyle}" Command="ScrollBar.PageUpCommand"/>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter Property="LayoutTransform" TargetName="GridRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="PART_Track" Property="Orientation" Value="Vertical"/>
+                                <Setter Property="Command" Value="ScrollBar.PageLeftCommand" TargetName="PageDown"/>
+                                <Setter Property="Command" Value="ScrollBar.PageRightCommand" TargetName="PageUp"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DropDownThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="Background" Value="{StaticResource InputTextActive}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Margin="6" Width="Auto" Height="Auto" Background="{TemplateBinding Background}"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True"/>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                            <Trigger Property="IsDragging" Value="True"/>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMB.BaseConversion.WPF"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic"
         x:Class="CMB.BaseConversion.WPF.MainWindow"
         mc:Ignorable="d"
         
@@ -11,35 +12,35 @@
         WindowStyle="None" ResizeMode="CanMinimize"
         Width="960" Height="540">
 
+    <!-- Layout Container -->
     <Grid x:Name="LayoutContainer" MouseUp="LayoutContainer_MouseUp">
-        <!-- Layout Container -->
+        <!-- Layout Partition -->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="830"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Title Bar -->
         <Canvas x:Name="TitleBar"
                 Grid.Row="0" Grid.ColumnSpan="2"
                 Background="{StaticResource TitleBarBG}"
                 MouseDown="TitleBar_MouseDown">
-            
+
             <Image x:Name="TitleWin"
                    Width="203" Height="40"
                    Source="{StaticResource BaseConversionImg}"
                    Stretch="Uniform"/>
-            
+
             <Button x:Name="MinimiseWin" Click="MinimiseWin_Click"
                     Width="16" Height="16"
                     Canvas.Right="44" Canvas.Top="12"
                     Template="{StaticResource ImageButton}"
                     Background="{StaticResource MinimiseBtn}"/>
-            
+
             <Button x:Name="CloseWin" Click="CloseWin_Click"
                     Width="16" Height="16"
                     Canvas.Right="14" Canvas.Top="12"
@@ -48,29 +49,33 @@
         </Canvas>
 
         <!-- Side Bar -->
-        <StackPanel x:Name="SideBar" Grid.Row="1" Grid.Column="0" Background="{StaticResource SideBarBG}">
+        <StackPanel x:Name="SideBar" Grid.Row="1" Grid.Column="0">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="0,0,0,2"/>
                 </Style>
             </StackPanel.Resources>
-            
+
+            <StackPanel.Background>
+                <StaticResource ResourceKey="SideBarBG"/>
+            </StackPanel.Background>
+
             <Image x:Name="Logo"
                    Width="130" Height="124"
                    Source="{StaticResource CMBLogo}"
                    Stretch="Uniform"/>
-            
+
             <Button x:Name="ConvertTab"
                     Width="130" Height="50"
                     Template="{StaticResource ImageButton}"
                     Background="{StaticResource TabConvert}"/>
-            
+
             <Button x:Name="ResetTab" Click="ResetTab_Click"
                     Width="130" Height="50"
                     Template="{StaticResource ImageButton}"
                     Background="{StaticResource TabResetIdle}"
                     BorderBrush="{StaticResource TabResetHover}"/>
-            
+
             <Button x:Name="ExitTab" Click="ExitTab_Click"
                     Width="130" Height="50"
                     Template="{StaticResource ImageButton}"
@@ -79,7 +84,7 @@
         </StackPanel>
 
         <!-- Content Page -->
-        <Canvas x:Name="ContentPage" Grid.Row="1" Grid.Column="1" Background="{StaticResource ContentBG}">
+        <Canvas x:Name="ContentPage" Grid.Row="1" Grid.Column="1">
             <!-- Resources -->
             <Canvas.Resources>
                 <Style x:Key="DropDownLabel" TargetType="{x:Type Label}">
@@ -99,6 +104,11 @@
                     <Setter Property="Padding" Value="5, 0"/>
                 </Style>
             </Canvas.Resources>
+
+            <!-- Background -->
+            <Canvas.Background>
+                <StaticResource ResourceKey="ContentBG"/>
+            </Canvas.Background>
             
             <!-- Input Fields -->
             <TextBox x:Name="InputNumber"
@@ -126,7 +136,7 @@
                       DropDownOpened="InputBase_DropDown"
                       DropDownClosed="InputBase_DropDown"
                       SelectionChanged="InputBaseIn_SelectionChanged">
-                
+
                 <ComboBoxItem Content="Base-2: Binary"/>
                 <ComboBoxItem Content="Base-3: Ternary"/>
                 <ComboBoxItem Content="Base-4: Quaternary"/>
@@ -147,6 +157,8 @@
                    Style="{StaticResource DropDownLabel}"
                    Content="convert to"/>
 
+            <!-- !! combobox border color when active !! --> 
+            
             <ComboBox x:Name="InputBaseOut"
                       Width="301" Height="41"
                       Canvas.Left="425" Canvas.Top="174"
@@ -156,7 +168,7 @@
                       DropDownOpened="InputBase_DropDown"
                       DropDownClosed="InputBase_DropDown"
                       SelectionChanged="InputBaseOut_SelectionChanged">
-                
+
                 <ComboBoxItem Content="Base-2: Binary"/>
                 <ComboBoxItem Content="Base-3: Ternary"/>
                 <ComboBoxItem Content="Base-4: Quaternary"/>
@@ -184,14 +196,14 @@
                   Background="{StaticResource ResultBackground}"
                   BorderBrush="{StaticResource ResultBorder}"
                   BorderThickness="1">
-                
+
                 <Grid x:Name="ResultContainer" Visibility="Hidden">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type Label}">
@@ -200,16 +212,16 @@
                                 <Setter Property="FontSize" Value="18"/>
                             </Style>
                         </StackPanel.Resources>
-                        
-                        <Label x:Name="ResultNumberIn">1101</Label>
-                        <Label x:Name="ResultBaseIn">2</Label>
-                        <Label x:Name="ResultLabel"> = </Label>
-                        <Label x:Name="ResultNumberOut">13</Label>
-                        <Label x:Name="ResultBaseOut">10</Label>
+
+                        <Label x:Name="ResultNumberIn" Content="1101"/>
+                        <Label x:Name="ResultBaseIn" Content="2"/>
+                        <Label x:Name="ResultLabel" Content="="/>
+                        <Label x:Name="ResultNumberOut" Content="13"/>
+                        <Label x:Name="ResultBaseOut" Content="10"/>
                     </StackPanel>
                 </Grid>
             </Border>
-            
+
             <!-- Status Bar -->
             <Border x:Name="StatusFlash"
                     Width="801" Height="21"
@@ -219,7 +231,7 @@
                     BorderThickness="1"
                     Panel.ZIndex="2"
                     Opacity="0"/>
-            
+
             <Border x:Name="StatusWarning"
                     Width="801" Height="21"
                     Canvas.Left="15" Canvas.Bottom="15"
@@ -228,7 +240,7 @@
                     BorderThickness="1"
                     Panel.ZIndex="2"
                     Opacity="0"/>
-            
+
             <Border x:Name="StatusError"
                     Width="801" Height="21"
                     Canvas.Left="15" Canvas.Bottom="15"
@@ -237,7 +249,7 @@
                     BorderThickness="1"
                     Panel.ZIndex="2"
                     Opacity="0"/>
-            
+
             <Border x:Name="StatusBar"
                     Width="801" Height="21"
                     Canvas.Left="15" Canvas.Bottom="15"
@@ -245,7 +257,7 @@
                     BorderBrush="#1A2148"
                     BorderThickness="1"
                     Panel.ZIndex="1">
-                
+
                 <Label x:Name="StatusBarLabel"
                        Style="{StaticResource StatusBarLabel}"
                        Content="Base Conversion"/>
