@@ -14,6 +14,7 @@
 
     <!-- Layout Container -->
     <Grid x:Name="LayoutContainer" MouseUp="LayoutContainer_MouseUp">
+        
         <!-- Layout Partition -->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -25,66 +26,120 @@
             <ColumnDefinition Width="830"/>
         </Grid.ColumnDefinitions>
 
-        <Canvas x:Name="TitleBar"
-                Grid.Row="0" Grid.ColumnSpan="2"
-                Background="{StaticResource TitleBarBG}"
-                MouseDown="TitleBar_MouseDown">
+        <!-- Title Bar -->
+        <Canvas
+            x:Name            = "TitleBar"
+            Grid.Row          = "0"
+            Grid.ColumnSpan   = "2"
+            Background        = "{StaticResource TitleBarBG}"
+            
+            MouseDown   = "TitleBar_MouseDown"
+            >
 
-            <Image x:Name="TitleWin"
-                   Width="203" Height="40"
-                   Source="{StaticResource BaseConversionImg}"
-                   Stretch="Uniform"/>
+            <!-- Base Conversion Logo -->
+            <Image
+                x:Name    = "TitleWin"
+                Width     = "203"
+                Height    = "40"
+                Source    = "{StaticResource BaseConversionImg}"
+                Stretch   = "Uniform"
+                />
 
-            <Button x:Name="MinimiseWin" Click="MinimiseWin_Click"
-                    Width="16" Height="16"
-                    Canvas.Right="44" Canvas.Top="12"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource MinimiseBtn}"/>
+            <!-- Minimise Button -->
+            <Button
+                x:Name         = "MinimiseWin"
+                Width          = "16"
+                Height         = "16"
+                Canvas.Right   = "44"
+                Canvas.Top     = "12"
+                Template       = "{StaticResource ImageButton}"
+                Background     = "{StaticResource MinimiseBtn}"
+                
+                Click   = "MinimiseWin_Click"
+                />
 
-            <Button x:Name="CloseWin" Click="CloseWin_Click"
-                    Width="16" Height="16"
-                    Canvas.Right="14" Canvas.Top="12"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource CloseBtn}"/>
+            <!-- Close Button -->
+            <Button
+                x:Name       = "CloseWin"
+                Width        = "16"
+                Height       = "16"
+                Canvas.Right = "14"
+                Canvas.Top   = "12"
+                Template     = "{StaticResource ImageButton}"
+                Background   = "{StaticResource CloseBtn}"
+                
+                Click   = "CloseWin_Click"
+                />
+            
         </Canvas>
 
         <!-- Side Bar -->
-        <StackPanel x:Name="SideBar" Grid.Row="1" Grid.Column="0">
+        <StackPanel
+            x:Name        = "SideBar"
+            Grid.Row      = "1"
+            Grid.Column   = "0"
+            Background    = "{StaticResource SideBarBG}"
+            >
+            
+            <!-- Resources -->
             <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="0,0,0,2"/>
                 </Style>
             </StackPanel.Resources>
 
-            <StackPanel.Background>
-                <StaticResource ResourceKey="SideBarBG"/>
-            </StackPanel.Background>
+            <!-- CMB Logo -->
+            <Image
+                x:Name    = "Logo"
+                Width     = "130"
+                Height    = "124"
+                Source    = "{StaticResource CMBLogo}"
+                Stretch   = "Uniform"
+                />
 
-            <Image x:Name="Logo"
-                   Width="130" Height="124"
-                   Source="{StaticResource CMBLogo}"
-                   Stretch="Uniform"/>
+            <!-- Convert Tab -->
+            <Button
+                x:Name       = "ConvertTab"
+                Width        = "130"
+                Height       = "50"
+                Template     = "{StaticResource ImageButton}"
+                Background   = "{StaticResource TabConvert}"
+                />
 
-            <Button x:Name="ConvertTab"
-                    Width="130" Height="50"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource TabConvert}"/>
+            <!-- Reset Tab -->
+            <Button
+                x:Name        = "ResetTab"
+                Width         = "130"
+                Height        = "50"
+                Template      = "{StaticResource ImageButton}"
+                Background    = "{StaticResource TabResetIdle}"
+                BorderBrush   = "{StaticResource TabResetHover}"
+                
+                Click   = "ResetTab_Click"
+                />
 
-            <Button x:Name="ResetTab" Click="ResetTab_Click"
-                    Width="130" Height="50"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource TabResetIdle}"
-                    BorderBrush="{StaticResource TabResetHover}"/>
-
-            <Button x:Name="ExitTab" Click="ExitTab_Click"
-                    Width="130" Height="50"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource TabExitIdle}"
-                    BorderBrush="{StaticResource TabExitHover}"/>
+            <!-- Exit Tab -->
+            <Button
+                x:Name        = "ExitTab"
+                Width         = "130"
+                Height        = "50"
+                Template      = "{StaticResource ImageButton}"
+                Background    = "{StaticResource TabExitIdle}"
+                BorderBrush   = "{StaticResource TabExitHover}"
+                
+                Click   = "ExitTab_Click"
+                />
+            
         </StackPanel>
 
         <!-- Content Page -->
-        <Canvas x:Name="ContentPage" Grid.Row="1" Grid.Column="1">
+        <Canvas
+            x:Name        = "ContentPage"
+            Grid.Row      = "1"
+            Grid.Column   = "1"
+            Background    = "{StaticResource ContentBG}"
+            >
+            
             <!-- Resources -->
             <Canvas.Resources>
                 <Style x:Key="DropDownLabel" TargetType="{x:Type Label}">
@@ -105,37 +160,47 @@
                 </Style>
             </Canvas.Resources>
 
-            <!-- Background -->
-            <Canvas.Background>
-                <StaticResource ResourceKey="ContentBG"/>
-            </Canvas.Background>
-            
-            <!-- Input Fields -->
-            <TextBox x:Name="InputNumber"
-                     Width="621" Height="41"
-                     Canvas.Left="105" Canvas.Top="114"
-                     Style="{StaticResource InputTextBox}"
+            <!-- Number Field -->
+            <TextBox
+                x:Name        = "InputNumber"
+                Width         = "621"
+                Height        = "41"
+                Canvas.Left   = "105"
+                Canvas.Top    = "114"
+                Style         = "{StaticResource InputTextBox}"
                      
-                     GotFocus="InputNumber_GotFocus"
-                     LostFocus="InputNumber_LostFocus"
+                GotFocus    = "InputNumber_GotFocus"
+                LostFocus   = "InputNumber_LostFocus"
                      
-                     Text="number"/>
+                Text   = "number"
+                />
 
-            <Label x:Name="InputBaseInPlaceholder"
-                   Width="301" Height="41"
-                   Canvas.Left="105" Canvas.Top="174"
-                   Style="{StaticResource DropDownLabel}"
-                   Content="base"/>
+            <!-- Placeholder Text for Drop Down -->
+            <Label
+                x:Name        = "InputBaseInPlaceholder"
+                Width         = "301"
+                Height        = "41"
+                Canvas.Left   = "105"
+                Canvas.Top    = "174"
+                Style         = "{StaticResource DropDownLabel}"
+                
+                Content   = "base"
+                />
 
-            <ComboBox x:Name="InputBaseIn"
-                      Width="301" Height="41"
-                      Canvas.Left="105" Canvas.Top="174"
-                      MaxDropDownHeight="124"
-                      Style="{StaticResource InputComboBox}"
+            <!-- BaseIn Drop Down -->
+            <ComboBox
+                x:Name              = "InputBaseIn"
+                Width               = "301"
+                Height              = "41"
+                Canvas.Left         = "105"
+                Canvas.Top          = "174"
+                MaxDropDownHeight   = "124"
+                Style               = "{StaticResource InputComboBox}"
                       
-                      DropDownOpened="InputBase_DropDown"
-                      DropDownClosed="InputBase_DropDown"
-                      SelectionChanged="InputBaseIn_SelectionChanged">
+                DropDownOpened     = "InputBase_DropDown"
+                DropDownClosed     = "InputBase_DropDown"
+                SelectionChanged   = "InputBaseIn_SelectionChanged"
+                >
 
                 <ComboBoxItem Content="Base-2: Binary"/>
                 <ComboBoxItem Content="Base-3: Ternary"/>
@@ -149,25 +214,35 @@
                 <ComboBoxItem Content="Base-20: Vigesimal"/>
                 <ComboBoxItem Content="Base-26: Hexavigesimal"/>
                 <ComboBoxItem Content="Base-36: Hexatridecimal"/>
+                
             </ComboBox>
 
-            <Label x:Name="InputBaseOutPlaceholder"
-                   Width="301" Height="41"
-                   Canvas.Left="425" Canvas.Top="174"
-                   Style="{StaticResource DropDownLabel}"
-                   Content="convert to"/>
+            <!-- Placeholder Text for Drop Down -->
+            <Label
+                x:Name        = "InputBaseOutPlaceholder"
+                Width         = "301"
+                Height        = "41"
+                Canvas.Left   = "425"
+                Canvas.Top    = "174"
+                Style         = "{StaticResource DropDownLabel}"
+                
+                Content   = "convert to"
+                />
 
-            <!-- !! combobox border color when active !! --> 
-            
-            <ComboBox x:Name="InputBaseOut"
-                      Width="301" Height="41"
-                      Canvas.Left="425" Canvas.Top="174"
-                      MaxDropDownHeight="124"
-                      Style="{StaticResource InputComboBox}"
+            <!-- BaseOut Drop Down -->
+            <ComboBox
+                x:Name              = "InputBaseOut"
+                Width               = "301"
+                Height              = "41"
+                Canvas.Left         = "425"
+                Canvas.Top          = "174"
+                MaxDropDownHeight   = "124"
+                Style               = "{StaticResource InputComboBox}"
                       
-                      DropDownOpened="InputBase_DropDown"
-                      DropDownClosed="InputBase_DropDown"
-                      SelectionChanged="InputBaseOut_SelectionChanged">
+                DropDownOpened     = "InputBase_DropDown"
+                DropDownClosed     = "InputBase_DropDown"
+                SelectionChanged   = "InputBaseOut_SelectionChanged"
+                >
 
                 <ComboBoxItem Content="Base-2: Binary"/>
                 <ComboBoxItem Content="Base-3: Ternary"/>
@@ -181,87 +256,137 @@
                 <ComboBoxItem Content="Base-20: Vigesimal"/>
                 <ComboBoxItem Content="Base-26: Hexavigesimal"/>
                 <ComboBoxItem Content="Base-36: Hexatridecimal"/>
+                
             </ComboBox>
 
-            <Button x:Name="ConvertInput" Click="ConvertInput_Click"
-                    Width="301" Height="41" Opacity="1"
-                    Canvas.Left="265" Canvas.Top="234"
-                    Template="{StaticResource ImageButton}"
-                    Background="{StaticResource ConvertBtn}"/>
+           <!-- Convert Button -->
+            <Button
+                x:Name        = "ConvertInput"
+                Width         = "301"
+                Height        = "41"
+                Canvas.Left   = "265"
+                Canvas.Top    = "234"
+                Opacity       = "1"
+                Background    = "{StaticResource ConvertBtn}"
+                Template      = "{StaticResource ImageButton}"
+                
+                Click   = "ConvertInput_Click"
+                />
 
             <!-- Result Field -->
-            <Border x:Name="Result"
-                  Width="621" Height="41"
-                  Canvas.Left="105" Canvas.Top="344"
-                  Background="{StaticResource ResultBackground}"
-                  BorderBrush="{StaticResource ResultBorder}"
-                  BorderThickness="1">
+            <Grid 
+                x:Name            = "Result"
+                Width             = "621"
+                Height            = "41"
+                Canvas.Left       = "105"
+                Canvas.Top        = "344"
+                >
 
-                <Grid x:Name="ResultContainer" Visibility="Hidden">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type Label}">
-                                <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
-                                <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
-                                <Setter Property="FontSize" Value="18"/>
-                            </Style>
-                        </StackPanel.Resources>
+                <Border
+                    Grid.ColumnSpan   = "3"
+                    Background        = "{StaticResource ResultBackground}"
+                    BorderBrush       = "{StaticResource ResultBorder}"
+                    BorderThickness   = "1"
+                    />
 
-                        <Label x:Name="ResultNumberIn" Content="1101"/>
-                        <Label x:Name="ResultBaseIn" Content="2"/>
-                        <Label x:Name="ResultLabel" Content="="/>
-                        <Label x:Name="ResultNumberOut" Content="13"/>
-                        <Label x:Name="ResultBaseOut" Content="10"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+                <StackPanel
+                    x:Name              = "ResultContainer"
+                    Grid.Column         = "1"
+                    Orientation         = "Horizontal"
+                    VerticalAlignment   = "Center"
+                    Visibility          = "Hidden"
+                    >
+                    
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Label}">
+                            <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
+                            <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
+                            <Setter Property="FontSize" Value="18"/>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <Label x:Name="ResultNumberIn"/>
+                    <Label x:Name="ResultBaseIn"/>
+                    <Label x:Name="ResultLabel" Content=" = "/>
+                    <Label x:Name="ResultNumberOut"/>
+                    <Label x:Name="ResultBaseOut"/>
+                    
+                </StackPanel>
+
+            </Grid>
+
+            <!-- Status Bar Flash Border -->
+            <Border
+                x:Name            = "StatusFlash"
+                Width             = "801"
+                Height            = "21"
+                Canvas.Left       = "15"
+                Canvas.Bottom     = "15"
+                Background        = "{StaticResource InputBGActive}"
+                BorderBrush       = "{StaticResource InputBorderActive}"
+                BorderThickness   = "1"
+                Panel.ZIndex      = "2"
+                Opacity           = "0"
+                />
+
+            <!-- Status Bar Warning Border -->
+            <Border
+                x:Name            = "StatusWarning"
+                Width             = "801"
+                Height            = "21"
+                Canvas.Left       = "15"
+                Canvas.Bottom     = "15"
+                Background        = "{StaticResource WarningBG}"
+                BorderBrush       = "{StaticResource WarningBorder}"
+                BorderThickness   = "1"
+                Panel.ZIndex      = "2"
+                Opacity           = "0"
+                />
+
+            <!-- Status Bar Error Border -->
+            <Border
+                x:Name            = "StatusError"
+                Width             = "801"
+                Height            = "21"
+                Canvas.Left       = "15"
+                Canvas.Bottom     = "15"
+                Background        = "{StaticResource ErrorBG}"
+                BorderBrush       = "{StaticResource ErrorBorder}"
+                BorderThickness   = "1"
+                Panel.ZIndex      = "2"
+                Opacity           = "0"
+                />
 
             <!-- Status Bar -->
-            <Border x:Name="StatusFlash"
-                    Width="801" Height="21"
-                    Canvas.Left="15" Canvas.Bottom="15"
-                    Background="{StaticResource InputBGActive}"
-                    BorderBrush="{StaticResource InputBorderActive}"
-                    BorderThickness="1"
-                    Panel.ZIndex="2"
-                    Opacity="0"/>
+            <Border
+                x:Name            = "StatusBar"
+                Width             = "801"
+                Height            = "21"
+                Canvas.Left       = "15"
+                Canvas.Bottom     = "15"
+                Background        = "Transparent"
+                BorderBrush       = "{StaticResource StatusBarBorder}"
+                BorderThickness   = "1"
+                Panel.ZIndex      = "1"
+                >
 
-            <Border x:Name="StatusWarning"
-                    Width="801" Height="21"
-                    Canvas.Left="15" Canvas.Bottom="15"
-                    Background="{StaticResource WarningBG}"
-                    BorderBrush="{StaticResource WarningBorder}"
-                    BorderThickness="1"
-                    Panel.ZIndex="2"
-                    Opacity="0"/>
-
-            <Border x:Name="StatusError"
-                    Width="801" Height="21"
-                    Canvas.Left="15" Canvas.Bottom="15"
-                    Background="{StaticResource ErrorBG}"
-                    BorderBrush="{StaticResource ErrorBorder}"
-                    BorderThickness="1"
-                    Panel.ZIndex="2"
-                    Opacity="0"/>
-
-            <Border x:Name="StatusBar"
-                    Width="801" Height="21"
-                    Canvas.Left="15" Canvas.Bottom="15"
-                    Background="Transparent"
-                    BorderBrush="#1A2148"
-                    BorderThickness="1"
-                    Panel.ZIndex="1">
-
-                <Label x:Name="StatusBarLabel"
-                       Style="{StaticResource StatusBarLabel}"
-                       Content="Base Conversion"/>
+                <Label
+                    x:Name="StatusBarLabel"
+                    Style="{StaticResource StatusBarLabel}"
+                    
+                    Content="Base Conversion"
+                    />
+                
             </Border>
         </Canvas>
     </Grid>
 </Window>
+
+<!-- !! 'result' text/combobox list conflict -->
+<!-- !! subscript base in result -->

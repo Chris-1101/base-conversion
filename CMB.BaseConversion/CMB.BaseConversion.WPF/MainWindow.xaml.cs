@@ -112,10 +112,13 @@ namespace CMB.BaseConversion.WPF
         // BaseIn/Out Field Behaviour
         private void InputBase_DropDown(object sender, EventArgs e)
         {
+            double fadeOpacity = 0.2;
+            Duration fadeDuration = TimeSpan.FromMilliseconds(300);
+
             DoubleAnimation da = new DoubleAnimation
             {
-                To = (ConvertInput.Opacity == 1.0) ? 0.1 : 1.0,
-                Duration = new Duration(TimeSpan.FromMilliseconds(300))
+                To = (ConvertInput.Opacity == 1.0) ? fadeOpacity : 1.0,
+                Duration = fadeDuration
             };
 
             ConvertInput.BeginAnimation(OpacityProperty, da);
@@ -207,15 +210,25 @@ namespace CMB.BaseConversion.WPF
             {
                 From = 1.0, To = 0.0,
                 Duration = new Duration(TimeSpan.FromMilliseconds(700)),
-                //AutoReverse = true
             };
 
             switch(type)
             {
-                case Status.Flash: StatusFlash.BeginAnimation(OpacityProperty, da); break;
-                case Status.Warning: StatusWarning.BeginAnimation(OpacityProperty, da); break;
-                case Status.Error: StatusError.BeginAnimation(OpacityProperty, da); break;
-                default: StatusFlash.BeginAnimation(OpacityProperty, da); break;
+                case Status.Flash:
+                    StatusFlash.BeginAnimation(OpacityProperty, da);
+                    break;
+
+                case Status.Warning:
+                    StatusWarning.BeginAnimation(OpacityProperty, da);
+                    break;
+
+                case Status.Error:
+                    StatusError.BeginAnimation(OpacityProperty, da);
+                    break;
+
+                default:
+                    StatusFlash.BeginAnimation(OpacityProperty, da);
+                    break;
             }
         }
 
