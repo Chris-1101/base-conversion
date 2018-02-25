@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CMB.BaseConversion.WPF
 {
@@ -122,6 +114,11 @@ namespace CMB.BaseConversion.WPF
             };
 
             ConvertInput.BeginAnimation(OpacityProperty, da);
+
+            if (sender.Equals(InputBaseIn))
+            {
+                ResultLabel.BeginAnimation(OpacityProperty, da);
+            }
         }
 
         private void InputBaseIn_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -168,9 +165,9 @@ namespace CMB.BaseConversion.WPF
             else // Send data to result fields
             {
                 ResultNumberIn.Content = num;
-                ResultBaseIn.Content = String.Format("(Base-{0})", baseIn.ToString());
+                ResultBaseIn.Content = baseIn.ToString();
                 ResultNumberOut.Content = bc.Convert(num, baseIn, baseOut);
-                ResultBaseOut.Content = String.Format("(Base-{0})", baseOut.ToString());
+                ResultBaseOut.Content = baseOut.ToString();
                 ResultContainer.Visibility = Visibility.Visible;
 
                 SetStatus("Conversion successful");

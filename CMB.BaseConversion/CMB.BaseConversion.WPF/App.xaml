@@ -13,15 +13,19 @@
         <BitmapImage x:Key="BaseConversionImg" UriSource="images/BaseConversion.png"/>
         <ImageBrush x:Key="MinimiseBtn" ImageSource="images/MinimiseButton.png" Stretch="Uniform"/>
         <ImageBrush x:Key="CloseBtn" ImageSource="images/CloseButton.png" Stretch="Uniform"/>
+        
         <BitmapImage x:Key="CMBLogo" UriSource="images/CMBLogo.png"/>
         <ImageBrush x:Key="TabConvert" ImageSource="images/TabConvert.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabResetIdle" ImageSource="images/TabResetIdle.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabResetHover" ImageSource="images/TabResetHover.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabExitIdle" ImageSource="images/TabExitIdle.png" Stretch="Uniform"/>
         <ImageBrush x:Key="TabExitHover" ImageSource="images/TabExitHover.png" Stretch="Uniform"/>
+
         <ImageBrush x:Key="ContentBG" ImageSource="images/ContentBG.png" Stretch="Uniform"/>
+        <BitmapImage x:Key="InputLbl" UriSource="images/InputLabel.png"/>
         <ImageBrush x:Key="DropDownArrow" ImageSource="images/DropDownArrow.png" Stretch="Uniform"/>
         <ImageBrush x:Key="ConvertBtn" ImageSource="images/ConvertButton.png" Stretch="Uniform"/>
+        <BitmapImage x:Key="ResultLbl" UriSource="images/ResultLabel.png"/>
 
         <!-- Colours -->
         <SolidColorBrush x:Key="TitleBarBG">#070A1E</SolidColorBrush>

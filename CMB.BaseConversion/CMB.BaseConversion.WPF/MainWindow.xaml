@@ -160,6 +160,17 @@
                 </Style>
             </Canvas.Resources>
 
+            <!-- Input Label -->
+            <Image
+                x:Name        = "InputLabel"
+                Width         = "90"
+                Height        = "25"
+                Canvas.Left   = "104"
+                Canvas.Top    = "86"
+                Source        = "{StaticResource InputLbl}"
+                Stretch       = "Uniform"
+                />
+
             <!-- Number Field -->
             <TextBox
                 x:Name        = "InputNumber"
@@ -273,6 +284,17 @@
                 Click   = "ConvertInput_Click"
                 />
 
+            <!-- Result Label -->
+            <Image
+                x:Name        = "ResultLabel"
+                Width         = "90"
+                Height        = "25"
+                Canvas.Left   = "104"
+                Canvas.Top    = "316"
+                Source        = "{StaticResource ResultLbl}"
+                Stretch       = "Uniform"
+                />
+            
             <!-- Result Field -->
             <Grid 
                 x:Name            = "Result"
@@ -304,18 +326,25 @@
                     >
                     
                     <StackPanel.Resources>
-                        <Style TargetType="{x:Type Label}">
+                        <Style x:Key="Baselabel" TargetType="{x:Type Label}">
                             <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
                             <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
                             <Setter Property="FontSize" Value="18"/>
+                            <Setter Property="Margin" Value="0, 3, 0, 0"/>
+                        </Style>
+                        <Style x:Key="Subscript" TargetType="{x:Type Label}">
+                            <Setter Property="Foreground" Value="{StaticResource InputTextActive}"/>
+                            <Setter Property="FontFamily" Value="{StaticResource CenturyGothicReg}"/>
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Margin" Value="-5, 13, 0, 0"/>
                         </Style>
                     </StackPanel.Resources>
 
-                    <Label x:Name="ResultNumberIn"/>
-                    <Label x:Name="ResultBaseIn"/>
-                    <Label x:Name="ResultLabel" Content=" = "/>
-                    <Label x:Name="ResultNumberOut"/>
-                    <Label x:Name="ResultBaseOut"/>
+                    <Label x:Name="ResultNumberIn"  Style="{StaticResource Baselabel}"/>
+                    <Label x:Name="ResultBaseIn"    Style="{StaticResource Subscript}"/>
+                    <Label x:Name="ResultEquals"    Style="{StaticResource Baselabel}" Content=" = "/>
+                    <Label x:Name="ResultNumberOut" Style="{StaticResource Baselabel}"/>
+                    <Label x:Name="ResultBaseOut"   Style="{StaticResource Subscript}"/>
                     
                 </StackPanel>
 
@@ -387,6 +416,3 @@
         </Canvas>
     </Grid>
 </Window>
-
-<!-- !! 'result' text/combobox list conflict -->
-<!-- !! subscript base in result -->
