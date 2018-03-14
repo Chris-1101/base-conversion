@@ -1,5 +1,5 @@
 # Base Conversion (.NET, C#, WPF, XAML)
 
-![BaseConversion](https://i.imgur.com/xg8GqB5.png)
+![BaseConversion](https://image.ibb.co/cFc6jc/Base_Conversion_01.png)
 ---
-![BaseConversion](https://i.imgur.com/smj7Rcp.png)
+![BaseConversion](https://image.ibb.co/haMcqH/Base_Conversion_02.png)
